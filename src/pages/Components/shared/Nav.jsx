@@ -1,12 +1,23 @@
+import auth from "@component/firebase.init";
+import { signOut } from "firebase/auth";
 import Link from "next/link";
+import { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { FiSearch } from "react-icons/fi";
+import { HiOutlineMenuAlt2 } from "react-icons/hi";
+import { RiCloseLine } from "react-icons/ri";
 import Logo from "../images/Logo";
 
 const Nav = () => {
+  const [UserImpl] = useAuthState(auth);
+  const [nav, setNav] = useState(false);
   return (
     <div>
-      <Logo />
-      <div className="text-neutral border-t border-silver shadow-lg px-8 flex items-center w-full justify-between">
-        <div className="text-xs font-medium tracking-wider py-5 w-full">
+      <Link href="/">
+        <Logo />
+      </Link>
+      <div className="text-neutral border-t border-silver shadow-lg lg:px-8 px-4 flex items-center w-full justify-between">
+        <div className="lg:block hidden text-xs font-medium tracking-wider py-5 w-full">
           <ul className="flex items-center justify-start gap-10 uppercase">
             <li>
               <Link href="/">Home</Link>
@@ -28,24 +39,127 @@ const Nav = () => {
             </li>
           </ul>
         </div>
-        {/* <div className="py-5 w-full">
-          <button>
-            <BiSearch />
+        <div className="py-4 lg:w-96 w-56">
+          <div className="relative">
+            <input
+              type="text"
+              className="w-full bg-silver py-1 rounded pl-8 pr-2 placeholder:uppercase outline-none focus:outline-none"
+              placeholder="Search Blogs"
+            />
+            <FiSearch className="text-neutral absolute left-2 top-1/2 -translate-y-1/2" />
+          </div>
+        </div>
+        {UserImpl ? (
+          <div className="hidden text-sm uppercase py-3 font-medium w-4/12 lg:flex gap-3 justify-end">
+            <Link
+              href="createpost"
+              className="bg-black rounded-sm text-white px-3 py-1"
+            >
+              Post Blog
+            </Link>
+            <button
+              onClick={() => signOut(auth)}
+              type="button"
+              className="bg-primary uppercase rounded-sm text-white px-3 py-1"
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <div className="text-sm uppercase py-3 font-medium w-4/12 lg:flex hidden gap-3 justify-end">
+            <Link
+              href="register"
+              className="bg-primary rounded-sm text-white px-3 py-1"
+            >
+              Register
+            </Link>
+            <Link
+              href="login"
+              className="bg-black rounded-sm text-white px-3 py-1"
+            >
+              Login
+            </Link>
+          </div>
+        )}
+        {/* menu button */}
+        <div className="lg:hidden">
+          <button
+            type="button"
+            onClick={() => setNav(true)}
+            className="text-2xl bg-primary text-white p-1 rounded"
+          >
+            <HiOutlineMenuAlt2 />
           </button>
-        </div> */}
-        <div className="text-sm uppercase py-3 font-medium w-2/12 flex gap-3 justify-end">
-          <Link
-            href="register"
-            className="bg-primary rounded-sm text-white px-3 py-1"
+        </div>
+      </div>
+      {/* nav for mobile device */}
+      <div
+        className={`fixed ${
+          nav ? "top-0" : "top-[-1000px]"
+        } duration-500 left-0 w-full h-screen bg-white z-50`}
+      >
+        <div className="flex justify-end m-4">
+          <button
+            type="button"
+            onClick={() => setNav(false)}
+            className="text-2xl bg-neutral text-white p-1 rounded"
           >
-            Register
-          </Link>
-          <Link
-            href="login"
-            className="bg-black rounded-sm text-white px-3 py-1"
-          >
-            Login
-          </Link>
+            <RiCloseLine />
+          </button>
+        </div>
+        <div className="h-full flex flex-col items-center justify-center">
+          <ul className="space-y-6 uppercase font-medium text-lg text-center">
+            <li>
+              <Link href="/">Home</Link>
+            </li>
+            <li>
+              <Link href="#">Features</Link>
+            </li>
+            <li>
+              <Link href="#">Life Style</Link>
+            </li>
+            <li>
+              <Link href="#">Travel</Link>
+            </li>
+            <li>
+              <Link href="#">Sports</Link>
+            </li>
+            <li>
+              <Link href="#">About</Link>
+            </li>
+          </ul>
+          {UserImpl ? (
+            <div className="uppercase py-3 font-medium w-full flex flex-col gap-3 justify-center items-center text-lg">
+              <Link
+                href="createpost"
+                className="bg-black rounded-sm text-white px-3 py-1"
+              >
+                Post Blog
+              </Link>
+              <button
+                onClick={() => signOut(auth)}
+                type="button"
+                className="bg-primary rounded-sm uppercase text-white px-3 py-1"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="uppercase py-3 font-medium w-full flex flex-col gap-3 justify-center items-center text-lg">
+              <Link
+                href="register"
+                className="bg-primary rounded-sm text-white px-3 py-1"
+              >
+                Register
+              </Link>
+              <Link
+                href="login"
+                className="bg-black rounded-sm text-white px-3 py-1"
+              >
+                Login
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>

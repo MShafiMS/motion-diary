@@ -13,7 +13,7 @@ const Banner = () => {
     <div
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
-      className="mx-14 my-10"
+      className="lg:mx-14 mx-5 lg:my-10 my-5"
     >
       <Swiper
         pagination={{
@@ -33,14 +33,14 @@ const Banner = () => {
             <div className="w-full h-full bg-gradient-to-t from-black/70 absolute top-0 left-0" />
             {/* navigation */}
             <button
-              className={`absolute left-6 custom-swiper-button-prev text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
+              className={`lg:block hidden absolute left-6 custom-swiper-button-prev text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
                 isHover ? "opacity-1000" : "opacity-0"
               }`}
             >
               <FaLongArrowAltLeft />
             </button>
             <button
-              className={`absolute right-6 custom-swiper-button-next text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
+              className={`lg:block hidden absolute right-6 custom-swiper-button-next text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
                 isHover ? "opacity-1000" : "opacity-0"
               }`}
             >
@@ -52,7 +52,7 @@ const Banner = () => {
               </button>
               <a
                 href="#"
-                className="text-4xl max-w-lg duration-300 font-bold hover:underline"
+                className="lg:text-4xl text-xl max-w-lg duration-300 font-bold hover:underline"
               >
                 Creative Diy Hobby. Making Handmade Craft Christmas Balls
               </a>
@@ -69,14 +69,14 @@ const Banner = () => {
             <div className="w-full h-full bg-gradient-to-t from-black/70 absolute top-0 left-0" />
             {/* navigation */}
             <button
-              className={`absolute left-6 custom-swiper-button-prev text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
+              className={`lg:block hidden absolute left-6 custom-swiper-button-prev text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
                 isHover ? "opacity-1000" : "opacity-0"
               }`}
             >
               <FaLongArrowAltLeft />
             </button>
             <button
-              className={`absolute right-6 custom-swiper-button-next text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
+              className={`lg:block hidden absolute right-6 custom-swiper-button-next text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
                 isHover ? "opacity-1000" : "opacity-0"
               }`}
             >
@@ -88,7 +88,7 @@ const Banner = () => {
               </button>
               <a
                 href="#"
-                className="text-4xl max-w-lg duration-300 font-bold hover:underline"
+                className="lg:text-4xl text-xl max-w-lg duration-300 font-bold hover:underline"
               >
                 Creative Diy Hobby. Making Handmade Craft Christmas Balls
               </a>
@@ -105,14 +105,14 @@ const Banner = () => {
             <div className="w-full h-full bg-gradient-to-t from-black/70 absolute top-0 left-0" />
             {/* navigation */}
             <button
-              className={`absolute left-6 custom-swiper-button-prev text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
+              className={`lg:block hidden absolute left-6 custom-swiper-button-prev text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
                 isHover ? "opacity-1000" : "opacity-0"
               }`}
             >
               <FaLongArrowAltLeft />
             </button>
             <button
-              className={`absolute right-6 custom-swiper-button-next text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
+              className={`lg:block hidden absolute right-6 custom-swiper-button-next text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
                 isHover ? "opacity-1000" : "opacity-0"
               }`}
             >
@@ -124,7 +124,7 @@ const Banner = () => {
               </button>
               <a
                 href="#"
-                className="text-4xl max-w-lg duration-300 font-bold hover:underline"
+                className="lg:text-4xl text-xl max-w-lg duration-300 font-bold hover:underline"
               >
                 Creative Diy Hobby. Making Handmade Craft Christmas Balls
               </a>
@@ -141,14 +141,14 @@ const Banner = () => {
             <div className="w-full h-full bg-gradient-to-t from-black/70 absolute top-0 left-0" />
             {/* navigation */}
             <button
-              className={`absolute left-6 custom-swiper-button-prev text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
+              className={`lg:block hidden absolute left-6 custom-swiper-button-prev text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
                 isHover ? "opacity-1000" : "opacity-0"
               }`}
             >
               <FaLongArrowAltLeft />
             </button>
             <button
-              className={`absolute right-6 custom-swiper-button-next text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
+              className={`lg:block hidden absolute right-6 custom-swiper-button-next text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
                 isHover ? "opacity-1000" : "opacity-0"
               }`}
             >
@@ -160,7 +160,7 @@ const Banner = () => {
               </button>
               <a
                 href="#"
-                className="text-4xl max-w-lg duration-300 font-bold hover:underline"
+                className="lg:text-4xl text-xl max-w-lg duration-300 font-bold hover:underline"
               >
                 Creative Diy Hobby. Making Handmade Craft Christmas Balls
               </a>
@@ -177,14 +177,14 @@ const Banner = () => {
             <div className="w-full h-full bg-gradient-to-t from-black/70 absolute top-0 left-0" />
             {/* navigation */}
             <button
-              className={`absolute left-6 custom-swiper-button-prev text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
+              className={`lg:block hidden absolute left-6 custom-swiper-button-prev text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
                 isHover ? "opacity-1000" : "opacity-0"
               }`}
             >
               <FaLongArrowAltLeft />
             </button>
             <button
-              className={`absolute right-6 custom-swiper-button-next text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
+              className={`lg:block hidden absolute right-6 custom-swiper-button-next text-white border-2 hover:bg-primary hover:border-primary duration-300 z-20 p-3 rounded-full top-1/2 -translate-y-1/2 ${
                 isHover ? "opacity-1000" : "opacity-0"
               }`}
             >
@@ -196,7 +196,7 @@ const Banner = () => {
               </button>
               <a
                 href="#"
-                className="text-4xl max-w-lg duration-300 font-bold hover:underline"
+                className="lg:text-4xl text-xl max-w-lg duration-300 font-bold hover:underline"
               >
                 Creative Diy Hobby. Making Handmade Craft Christmas Balls
               </a>
