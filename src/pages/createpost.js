@@ -1,6 +1,8 @@
 import withAuth from "@component/Authentication/withAuth";
+import useBlogs from "@component/Hooks/useBlogs";
 import axios from "axios";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import "quill/dist/quill.snow.css";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -9,11 +11,15 @@ import { useQuill } from "react-quilljs";
 import primaryAxios from "./api/primaryAxios";
 const createpost = () => {
   const { quill, quillRef } = useQuill();
+  const [blogs, isLoading, refetch] = useBlogs();
+
   const [description, setDescription] = useState(null);
   const [value, setValue] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
   const [hover, setHover] = useState(false);
+
   const imageHostKey = "d39ad27ee9b8cd1b554105f125654da5";
+
   const {
     register,
     handleSubmit,
@@ -21,7 +27,15 @@ const createpost = () => {
     formState: { errors },
     watch,
   } = useForm();
+  let date =
+    new Date().toLocaleString("en-US", { month: "long" }) +
+    " " +
+    new Date().toLocaleString("en-US", { day: "2-digit" }) +
+    ", " +
+    new Date().getFullYear();
+  const router = useRouter();
   const image = watch("image");
+
   const onSubmit = (data) => {
     const image = data.image[0];
     const formData = new FormData();
@@ -35,12 +49,14 @@ const createpost = () => {
           img: res?.data?.data.url,
           description: description,
           blog: value,
-          date: "1 december, 2026",
+          date: date,
         };
         primaryAxios.post(`/blogs`, addBlog);
       }
     });
     reset();
+    router.push("/");
+    refetch();
   };
 
   useEffect(() => {
@@ -142,6 +158,8 @@ const createpost = () => {
                 type="radio"
                 name="category"
                 id="life-style"
+                value="Life Style"
+                {...register("category")}
                 className="w-5"
               />
               <label
@@ -152,13 +170,27 @@ const createpost = () => {
               </label>
             </div>
             <div className="flex gap-2">
-              <input type="radio" name="category" id="travel" className="w-5" />
+              <input
+                type="radio"
+                name="category"
+                {...register("category")}
+                id="travel"
+                value="Travel"
+                className="w-5"
+              />
               <label htmlFor="travel" className="uppercase text-lg font-medium">
                 Travel
               </label>
             </div>
             <div className="flex gap-2">
-              <input type="radio" name="category" id="sports" className="w-5" />
+              <input
+                type="radio"
+                name="category"
+                {...register("category")}
+                id="sports"
+                value="Sports"
+                className="w-5"
+              />
               <label htmlFor="sports" className="uppercase text-lg font-medium">
                 Sports
               </label>
@@ -167,7 +199,9 @@ const createpost = () => {
               <input
                 type="radio"
                 name="category"
+                {...register("category")}
                 id="creative"
+                value="Creative"
                 className="w-5"
               />
               <label
@@ -178,13 +212,27 @@ const createpost = () => {
               </label>
             </div>
             <div className="flex gap-2">
-              <input type="radio" name="category" id="diy" className="w-5" />
+              <input
+                type="radio"
+                name="category"
+                {...register("category")}
+                id="diy"
+                value="Diy"
+                className="w-5"
+              />
               <label htmlFor="diy" className="uppercase text-lg font-medium">
                 Diy
               </label>
             </div>
             <div className="flex gap-2">
-              <input type="radio" name="category" id="food" className="w-5" />
+              <input
+                type="radio"
+                name="category"
+                {...register("category")}
+                id="food"
+                value="Food"
+                className="w-5"
+              />
               <label htmlFor="food" className="uppercase text-lg font-medium">
                 Food
               </label>
@@ -193,7 +241,9 @@ const createpost = () => {
               <input
                 type="radio"
                 name="category"
+                {...register("category")}
                 id="fashion"
+                value="Fashion"
                 className="w-5"
               />
               <label

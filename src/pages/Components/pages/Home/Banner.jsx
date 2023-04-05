@@ -4,17 +4,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import primaryAxios from "@component/pages/api/primaryAxios";
+import useBlogs from "@component/Hooks/useBlogs";
 import Link from "next/link";
 import { useState } from "react";
-import { useQuery } from "react-query";
 import { Navigation, Pagination } from "swiper";
 
 const Banner = () => {
   const [isHover, setIsHover] = useState(false);
-  const { data: blogs, isLoading } = useQuery(["blogs"], () =>
-    primaryAxios.get(`/blogs`)
-  );
+  const [blogs] = useBlogs();
   return (
     <div
       onMouseEnter={() => setIsHover(true)}
