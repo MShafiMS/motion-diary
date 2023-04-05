@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import primaryAxios from "./api/primaryAxios";
 
 const login = () => {
   const [isShowEye, setIsShowEye] = useState(false);
@@ -24,9 +25,13 @@ const login = () => {
   };
   useEffect(() => {
     if (user) {
+      primaryAxios.put(`/users`, {
+        name: user?.user?.displayName,
+        email: user?.user?.email,
+      });
       router.push("/");
     }
-  }, [user]);
+  }, [user, name]);
 
   if (error) {
     singInError = <p className="text-red-600">{error?.message}</p>;

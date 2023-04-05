@@ -12,11 +12,11 @@ const Nav = () => {
   const [UserImpl] = useAuthState(auth);
   const [nav, setNav] = useState(false);
   return (
-    <div>
+    <div className="bg-white">
       <Link href="/">
         <Logo />
       </Link>
-      <div className="text-neutral border-t border-silver shadow-lg lg:px-8 px-4 flex items-center w-full justify-between">
+      <div className="text-neutral border-t border-silver shadow-lg lg:px-8 px-4 flex items-center gap-4 w-full justify-between">
         <div className="lg:block hidden text-xs font-medium tracking-wider py-5 w-full">
           <ul className="flex items-center justify-start gap-10 uppercase">
             <li>
@@ -39,8 +39,8 @@ const Nav = () => {
             </li>
           </ul>
         </div>
-        <div className="py-4 lg:w-96 w-56">
-          <div className="relative">
+        <div className="py-4 flex gap-4 items-center w-fit">
+          <div className="relative lg:w-72 w-56">
             <input
               type="text"
               className="w-full bg-silver py-1 rounded pl-8 pr-2 placeholder:uppercase outline-none focus:outline-none"
@@ -48,11 +48,17 @@ const Nav = () => {
             />
             <FiSearch className="text-neutral absolute left-2 top-1/2 -translate-y-1/2" />
           </div>
+          <Link
+            href="/admin/user"
+            className="bg-neutral w-max rounded-sm text-white px-3 py-1 font-medium uppercase text-sm"
+          >
+            Admin Controls
+          </Link>
         </div>
         {UserImpl ? (
-          <div className="hidden text-sm uppercase py-3 font-medium w-4/12 lg:flex gap-3 justify-end">
+          <div className="hidden text-sm uppercase py-3 font-medium w-2/5 lg:flex gap-3 justify-end">
             <Link
-              href="createpost"
+              href="/createpost"
               className="bg-black rounded-sm text-white px-3 py-1"
             >
               Post Blog
@@ -66,15 +72,15 @@ const Nav = () => {
             </button>
           </div>
         ) : (
-          <div className="text-sm uppercase py-3 font-medium w-4/12 lg:flex hidden gap-3 justify-end">
+          <div className="text-sm uppercase py-3 font-medium w-2/5 lg:flex hidden gap-3 justify-end">
             <Link
-              href="register"
+              href="/register"
               className="bg-primary rounded-sm text-white px-3 py-1"
             >
               Register
             </Link>
             <Link
-              href="login"
+              href="/login"
               className="bg-black rounded-sm text-white px-3 py-1"
             >
               Login
@@ -131,7 +137,7 @@ const Nav = () => {
           {UserImpl ? (
             <div className="uppercase py-3 font-medium w-full flex flex-col gap-3 justify-center items-center text-lg">
               <Link
-                href="createpost"
+                href="/createpost"
                 className="bg-black rounded-sm text-white px-3 py-1"
               >
                 Post Blog
@@ -147,13 +153,13 @@ const Nav = () => {
           ) : (
             <div className="uppercase py-3 font-medium w-full flex flex-col gap-3 justify-center items-center text-lg">
               <Link
-                href="register"
+                href="/register"
                 className="bg-primary rounded-sm text-white px-3 py-1"
               >
                 Register
               </Link>
               <Link
-                href="login"
+                href="/login"
                 className="bg-black rounded-sm text-white px-3 py-1"
               >
                 Login

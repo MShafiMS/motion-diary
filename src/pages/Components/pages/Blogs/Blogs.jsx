@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react";
+import primaryAxios from "@component/pages/api/primaryAxios";
+import { useQuery } from "react-query";
 import Blog from "./Blog";
 
 const Blogs = () => {
-  const [blogs, setBlogs] = useState(null);
-  const fetchBlogs = async () => {
-    const blogs = await (await fetch("blogs.json")).json();
-    setBlogs(blogs);
-  };
-  useEffect(() => {
-    fetchBlogs();
-  }, []);
+  const { data: blogs, isLoading } = useQuery(["blogs"], () =>
+    primaryAxios.get(`/blogs`)
+  );
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:mx-14 mx-5 mt-8">
-        {blogs?.map((blog, index) => (
+        {blogs?.data?.map((blog, index) => (
           <div key={index}>
             <Blog blog={blog} />
           </div>
