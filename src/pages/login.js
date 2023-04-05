@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import primaryAxios from "./api/primaryAxios";
 
-const login = () => {
+const Login = () => {
   const [isShowEye, setIsShowEye] = useState(false);
   const router = useRouter();
   const {
@@ -31,7 +31,7 @@ const login = () => {
       });
       router.push("/");
     }
-  }, [user, name]);
+  }, [user]);
 
   if (error) {
     singInError = <p className="text-red-600">{error?.message}</p>;
@@ -150,4 +150,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;

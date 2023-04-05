@@ -15,7 +15,6 @@ const Banner = () => {
   const { data: blogs, isLoading } = useQuery(["blogs"], () =>
     primaryAxios.get(`/blogs`)
   );
-  console.log(blogs);
   return (
     <div
       onMouseEnter={() => setIsHover(true)}

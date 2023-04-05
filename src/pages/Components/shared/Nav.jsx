@@ -1,3 +1,4 @@
+import useRole from "@component/Hooks/useAdmin";
 import auth from "@component/firebase.init";
 import { signOut } from "firebase/auth";
 import Link from "next/link";
@@ -10,6 +11,7 @@ import Logo from "../images/Logo";
 
 const Nav = () => {
   const [UserImpl] = useAuthState(auth);
+  const [role, roleLoading] = useRole();
   const [nav, setNav] = useState(false);
   return (
     <div className="bg-white">
@@ -48,21 +50,33 @@ const Nav = () => {
             />
             <FiSearch className="text-neutral absolute left-2 top-1/2 -translate-y-1/2" />
           </div>
-          <Link
-            href="/admin/user"
-            className="bg-neutral w-max rounded-sm text-white px-3 py-1 font-medium uppercase text-sm"
-          >
-            Admin Controls
-          </Link>
+          {role === "admin" && (
+            <Link
+              href="/admin/user"
+              className="bg-neutral w-max rounded-sm text-white px-3 py-1 font-medium uppercase text-sm"
+            >
+              Admin Controls
+            </Link>
+          )}
         </div>
         {UserImpl ? (
           <div className="hidden text-sm uppercase py-3 font-medium w-2/5 lg:flex gap-3 justify-end">
-            <Link
-              href="/createpost"
-              className="bg-black rounded-sm text-white px-3 py-1"
-            >
-              Post Blog
-            </Link>
+            {role === "admin" && (
+              <Link
+                href="/createpost"
+                className="bg-black rounded-sm text-white px-3 py-1"
+              >
+                Post Blog
+              </Link>
+            )}
+            {role === "author" && (
+              <Link
+                href="/createpost"
+                className="bg-black rounded-sm text-white px-3 py-1"
+              >
+                Post Blog
+              </Link>
+            )}
             <button
               onClick={() => signOut(auth)}
               type="button"

@@ -1,3 +1,4 @@
+import withAuth from "@component/Authentication/withAuth";
 import axios from "axios";
 import Head from "next/head";
 import "quill/dist/quill.snow.css";
@@ -209,4 +210,4 @@ const createpost = () => {
   );
 };
 
-export default createpost;
+export default withAuth(createpost);
