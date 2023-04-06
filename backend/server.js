@@ -140,6 +140,34 @@ async function run() {
       const result = await blogCollection.deleteOne(query);
       res.send(result);
     });
+
+    app.put("/blog-likes", async (req, res) => {
+      const { id } = req.query;
+      const { like } = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          like: like,
+        },
+      };
+      const result = await blogCollection.updateOne(filter, updateDoc, options);
+      res.send({ success: true, result });
+    });
+
+    app.put("/blog-comments", async (req, res) => {
+      const { id } = req.query;
+      const { comment } = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          comment: comment,
+        },
+      };
+      const result = await blogCollection.updateOne(filter, updateDoc, options);
+      res.send({ success: true, result });
+    });
   } finally {
   }
 }

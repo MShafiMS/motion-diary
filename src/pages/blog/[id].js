@@ -21,7 +21,27 @@ const BlogsView = () => {
         <h1 className="font-bold text-4xl my-4">{blog?.title}</h1>
         <p className="text-sm uppercase text-[#808080]">{blog?.date}</p>
       </div>
-      <img src={blog?.img} className="mx-auto w-full my-6" alt="" />
+      <div className="w-full flex gap-4 items-start my-6">
+        <div className="w-full">
+          <img src={blog?.img} className="w-full rounded" alt="" />
+        </div>
+        <div className="w-5/12">
+          <div className="bg-silver rounded border border-[#808080]/50 p-2">
+            <p>
+              <span className="font-medium">Author Name: </span>
+              {blog?.author || "Muhammad Shafi"}
+            </p>
+            <p>
+              <span className="font-medium">Posted On: </span>
+              {blog?.date}
+            </p>
+            <p>
+              <span className="font-medium">Total Likes: </span>
+              {blog?.date}
+            </p>
+          </div>
+        </div>
+      </div>
       <div className="my-8">{ReactHtmlParser(blog?.blog)}</div>
     </div>
   );

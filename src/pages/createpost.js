@@ -57,6 +57,8 @@ const createpost = () => {
           author: user?.displayName,
           email: user?.email,
           date: date,
+          like: 0,
+          comment: [],
         };
         primaryAxios.post(`/blogs`, addBlog);
       }
