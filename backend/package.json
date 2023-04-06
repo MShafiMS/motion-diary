@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
-    "build": "go build -o app .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
