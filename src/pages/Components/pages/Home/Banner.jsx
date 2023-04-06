@@ -8,10 +8,14 @@ import useBlogs from "@component/Hooks/useBlogs";
 import Link from "next/link";
 import { useState } from "react";
 import { Navigation, Pagination } from "swiper";
+import Loader from "../../shared/Loader/Loader";
 
 const Banner = () => {
   const [isHover, setIsHover] = useState(false);
-  const [blogs] = useBlogs();
+  const [blogs, isLoading] = useBlogs();
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div
       onMouseEnter={() => setIsHover(true)}

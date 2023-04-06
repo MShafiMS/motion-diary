@@ -1,17 +1,22 @@
-import withAuth from "@component/Authentication/withAuth";
+import useRole from "@component/Hooks/useAdmin";
 import useBlogs from "@component/Hooks/useBlogs";
+import auth from "@component/firebase.init";
 import axios from "axios";
+import { signOut } from "firebase/auth";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import "quill/dist/quill.snow.css";
 import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { BsCloudUploadFill } from "react-icons/bs";
 import { useQuill } from "react-quilljs";
+import Loader from "./Components/shared/Loader/Loader";
 import primaryAxios from "./api/primaryAxios";
 const createpost = () => {
   const { quill, quillRef } = useQuill();
   const [blogs, isLoading, refetch] = useBlogs();
+  const [user, loading] = useAuthState(auth);
 
   const [description, setDescription] = useState(null);
   const [value, setValue] = useState(null);
@@ -49,6 +54,8 @@ const createpost = () => {
           img: res?.data?.data.url,
           description: description,
           blog: value,
+          author: user?.displayName,
+          email: user?.email,
           date: date,
         };
         primaryAxios.post(`/blogs`, addBlog);
@@ -67,6 +74,7 @@ const createpost = () => {
       });
     }
   }, [quill]);
+
   useEffect(() => {
     if (image && image[0]) {
       let reader = new FileReader();
@@ -77,6 +85,19 @@ const createpost = () => {
       reader.readAsDataURL(file);
     }
   }, [image]);
+
+  const [role, roleLoading] = useRole();
+
+  if (loading) {
+    return <Loader />;
+  }
+  if (!user && !loading) {
+    router.push("/login");
+  }
+  if (!loading && !roleLoading && role !== "admin" && role !== "author") {
+    signOut(auth);
+    router.push("/login");
+  }
   return (
     <div className="mx-8 text-neutral">
       <Head>
@@ -260,4 +281,4 @@ const createpost = () => {
   );
 };
 
-export default withAuth(createpost);
+export default createpost;

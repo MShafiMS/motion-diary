@@ -79,11 +79,7 @@ async function run() {
           role: role,
         },
       };
-      const result = await userCollection.updateOne(
-        filter,
-        updateDoc,
-        options
-      );
+      const result = await userCollection.updateOne(filter, updateDoc, options);
       res.send({ success: true, result });
     });
 
@@ -101,13 +97,16 @@ async function run() {
       res.send(blogs);
     });
     app.post("/blogs", async (req, res) => {
-      const { title, img, category, description, date, blog } = req.body;
+      const { title, img, category, description, date, blog, author, email } =
+        req.body;
       const addblog = {
         title: title,
         img: img,
         category: category,
         description: description,
         blog: blog,
+        author: author,
+        email: email,
         date: date,
       };
       const result = await blogCollection.insertOne(addblog);

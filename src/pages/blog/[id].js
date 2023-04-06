@@ -1,13 +1,16 @@
 import useBlogs from "@component/Hooks/useBlogs";
 import { useRouter } from "next/router";
 import ReactHtmlParser from "react-html-parser";
+import Loader from "../Components/shared/Loader/Loader";
 
 const BlogsView = () => {
   const { query } = useRouter();
   const blogId = query.id;
-  const [blogs] = useBlogs();
+  const [blogs, isLoading] = useBlogs();
   const blog = blogs?.data.find((s) => blogId === s._id);
-  console.log(blog?.blog);
+  if (isLoading) {
+    return <Loader/>;
+  }
   return (
     <div className="mt-16 mx-14">
       <div className="text-center">
@@ -19,7 +22,7 @@ const BlogsView = () => {
         <p className="text-sm uppercase text-[#808080]">{blog?.date}</p>
       </div>
       <img src={blog?.img} className="mx-auto w-full my-6" alt="" />
-      <div>{ReactHtmlParser(blog?.blog)}</div>
+      <div className="my-8">{ReactHtmlParser(blog?.blog)}</div>
     </div>
   );
 };

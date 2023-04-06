@@ -1,9 +1,9 @@
-const Logo = () => {
+const Logo = ({ width }) => {
   return (
     <div className="py-8">
       <svg
-        width="319"
-        height="69"
+        width={width || "319"}
+        height="auto"
         viewBox="0 0 319 69"
         className="mx-auto"
         fill="none"

@@ -1,8 +1,20 @@
+import useRole from "@component/Hooks/useAdmin";
+import auth from "@component/firebase.init";
+import { signOut } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Loader from "../Components/shared/Loader/Loader";
 
 const AdminLayout = ({ children }) => {
   const router = useRouter();
+  const [role, roleLoading] = useRole();
+  if (roleLoading) {
+    return <Loader />;
+  }
+  if (role !== "admin") {
+    signOut(auth);
+    router.push("/login");
+  }
   return (
     <div className="bg-white flex justify-center w-full border-t border-silver">
       <div className="w-1/5 relative h-[80vh] bg-neutral">

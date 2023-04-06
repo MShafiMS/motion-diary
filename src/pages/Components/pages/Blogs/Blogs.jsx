@@ -1,14 +1,16 @@
 import useBlogs from "@component/Hooks/useBlogs";
+import Loader from "../../shared/Loader/Loader";
 import Blog from "./Blog";
 
 const Blogs = () => {
   const [blogs, isLoading] = useBlogs();
+
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:mx-14 mx-5 mt-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:mx-14 mx-5 my-8">
         {blogs?.data
           ?.slice()
           .reverse()
