@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
-    "build": "yarn run build",
+    "build": "yarn",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
