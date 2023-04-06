@@ -1,15 +1,15 @@
 import {
-    FaFacebookF,
-    FaGooglePlusG,
-    FaInstagram,
-    FaLinkedinIn,
-    FaTwitter,
+  FaFacebookF,
+  FaGooglePlusG,
+  FaInstagram,
+  FaLinkedinIn,
+  FaTwitter,
 } from "react-icons/fa";
 import Logo from "../images/Logo";
 
 const Footer = () => {
   return (
-    <div className="">
+    <div className="border-t border-[#808080]/50">
       <Logo width="200" />
       <div className="py-6 px-8 bg-silver/40 flex items-center justify-between">
         <p className="text-xs text-neutral">

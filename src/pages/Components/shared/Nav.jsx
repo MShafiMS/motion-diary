@@ -63,8 +63,10 @@ const Nav = () => {
                 onClick={() => setUserNav(!userNav)}
               >
                 <p className="px-2 rounded-md border border-[#808080]/30 w-full h-full flex items-center gap-1 text-neutral">
-                  {UserImpl?.displayName.slice(0, 7)}..{" "}
-                  <IoMdArrowDropdown className="text-lg" />
+                  {UserImpl?.displayName?.length > 7
+                    ? UserImpl?.displayName.slice(0, 7)
+                    : UserImpl?.displayName}
+                  .. <IoMdArrowDropdown className="text-lg" />
                 </p>
               </button>
               <div

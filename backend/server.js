@@ -24,18 +24,6 @@ async function run() {
     const blogCollection = client.db("motion-diary").collection("blogs");
     const userCollection = client.db("motion-diary").collection("users");
 
-    const verifyAdmin = async (req, res, next) => {
-      const requester = req.decoded.email;
-      const requesterAccount = await userCollection.findOne({
-        email: requester,
-      });
-      if (requesterAccount.role === "admin") {
-        next();
-      } else {
-        res.status(403).send({ message: "forbidden" });
-      }
-    };
-
     app.put("/users", async (req, res) => {
       const { email, name } = req.body;
       const filter = { email: email };
@@ -57,22 +45,22 @@ async function run() {
 
     app.get("/user/:id", async (req, res) => {
       const id = req.params.id;
-      const query = { _id: ObjectId(id) };
+      const query = { _id: new ObjectId(id) };
       const courses = await userCollection.findOne(query);
       res.send(courses);
     });
 
-    app.delete("/user/:id", verifyAdmin, async (req, res) => {
+    app.delete("/user/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await userCollection.deleteOne(query);
       res.send(result);
     });
 
-    app.put("/user-role", verifyAdmin, async (req, res) => {
+    app.put("/user-role", async (req, res) => {
       const { id } = req.query;
       const { role } = req.body;
-      const filter = { _id: ObjectId(id) };
+      const filter = { _id: new ObjectId(id) };
       const options = { upsert: true };
       const updateDoc = {
         $set: {
@@ -110,6 +98,34 @@ async function run() {
         date: date,
       };
       const result = await blogCollection.insertOne(addblog);
+      res.send(result);
+    });
+
+    app.put("/blog-approve", async (req, res) => {
+      const { id } = req.query;
+      const { approve } = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          approve: approve,
+        },
+      };
+      const result = await blogCollection.updateOne(filter, updateDoc, options);
+      res.send({ success: true, result });
+    });
+
+    app.get("/blogs/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const blog = await blogCollection.findOne(query);
+      res.send(blog);
+    });
+
+    app.delete("/blog/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await blogCollection.deleteOne(query);
       res.send(result);
     });
   } finally {

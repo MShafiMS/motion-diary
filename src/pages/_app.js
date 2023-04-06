@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }) {
     <QueryClientProvider client={queryClient}>
       <>
         <Nav />
-        <div className="min-h-screen">
+        <>
           {Component.PageLayout ? (
             <Component.PageLayout>
               <Component {...pageProps} />
@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }) {
           ) : (
             <Component {...pageProps} />
           )}
-        </div>
+        </>
         <Footer />
       </>
     </QueryClientProvider>

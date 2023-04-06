@@ -1,9 +1,41 @@
+import { useQuery } from "react-query";
+import primaryAxios from "../api/primaryAxios";
+import BlogRow from "./BlogRow";
 import AdminLayout from "./layout";
 
 const ManageBlogs = () => {
+  const {
+    data: blogs,
+    isLoading,
+    refetch,
+  } = useQuery(["blogs"], () => primaryAxios.get(`/blogs`));
+
   return (
     <div>
-      <h1>Manage Blogs</h1>
+      <div className="overflow-x-auto w-full">
+        <table className="w-full text-neutral ">
+          <thead>
+            <tr className="py-2 border-b border-silver">
+              <th className="text-start">Index</th>
+              <th className="text-start">Blog</th>
+              <th className="text-start">Author</th>
+              <th className="text-start">View</th>
+              <th className="text-start">Aprove</th>
+              <th className="text-start">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {blogs?.data?.map((blog, index) => (
+              <BlogRow
+                key={blog._id}
+                index={index}
+                blog={blog}
+                refetch={refetch}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
