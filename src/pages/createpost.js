@@ -115,14 +115,14 @@ const createpost = () => {
             type="text"
             {...register("title")}
             required
-            className="border border-[#808080]/40 p-3 lg:mb-0 mb-6 w-full text-lg outline-none focus:outline-none font-semibold"
+            className="border border-[#808080]/40 p-3 w-full text-lg outline-none focus:outline-none font-semibold"
             placeholder="Blog Title"
           />
-          <div className="h-full lg:block hidden">
+          <div className="h-[90vh] lg:h-[33vh] lg:mb-0 mb-36">
             <p className="uppercase font-medium bg-silver px-1 mt-8">
               Description
             </p>
-            <div style={{ width: "100%", height: 300 }}>
+            <div style={{ width: "100%", height: "100%" }}>
               <div ref={quillRef} />
             </div>
           </div>
@@ -277,14 +277,6 @@ const createpost = () => {
               >
                 Fashion
               </label>
-            </div>
-          </div>
-          <div className="lg:hidden h-[90vh] mb-36">
-            <p className="uppercase font-medium bg-silver px-1 mt-8">
-              Description
-            </p>
-            <div style={{ width: "100%", height: "100%" }}>
-              <div ref={quillRef} />
             </div>
           </div>
         </div>
