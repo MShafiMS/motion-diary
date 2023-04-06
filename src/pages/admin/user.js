@@ -56,6 +56,42 @@ const User = () => {
       })();
     };
 
+    const handleDeleteUser = (id) => {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((willDelete) => {
+        if (willDelete.isConfirmed) {
+          (async () => {
+            const { data } = await primaryAxios.delete(`/user/${id}`);
+            if (data.deletedCount > 0) {
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top-right",
+                iconColor: "green",
+                customClass: {
+                  popup: "colored-toast",
+                },
+                showConfirmButton: false,
+                timer: 1000,
+                timerProgressBar: true,
+              });
+              await Toast.fire({
+                icon: "success",
+                title: "deleted",
+              });
+              refetch();
+            }
+          })();
+        }
+      });
+    };
+
     const { name, email, role, _id, image } = user;
     return (
       <tr className="border-b border-silver">
@@ -217,6 +253,13 @@ const User = () => {
             </div>
           </div>
         </td>
+        <td>
+          <button
+            className="bg-primary px-2 rounded uppercase font-bold text-sm"
+          >
+            Delete
+          </button>
+        </td>
       </tr>
     );
   };
@@ -231,6 +274,7 @@ const User = () => {
               <th className="text-start">Name</th>
               <th className="text-start">Role</th>
               <th className="text-start">Action</th>
+              <th className="text-start">Delete</th>
             </tr>
           </thead>
           <tbody>

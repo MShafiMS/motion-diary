@@ -1,4 +1,4 @@
-import useBlogs from "@component/Hooks/useBlogs";
+import { useBlogContext } from "@component/Hooks/BlogsContext";
 import { useRouter } from "next/router";
 import ReactHtmlParser from "react-html-parser";
 import Loader from "../Components/shared/Loader/Loader";
@@ -6,10 +6,10 @@ import Loader from "../Components/shared/Loader/Loader";
 const BlogsView = () => {
   const { query } = useRouter();
   const blogId = query.id;
-  const [blogs, isLoading] = useBlogs();
+  const { blogs, isLoading, refetch } = useBlogContext();
   const blog = blogs?.data.find((s) => blogId === s._id);
   if (isLoading) {
-    return <Loader/>;
+    return <Loader />;
   }
   return (
     <div className="mt-16 mx-14">

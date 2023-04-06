@@ -1,22 +1,123 @@
 import Link from "next/link";
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
+import Swal from "sweetalert2";
 import primaryAxios from "../api/primaryAxios";
 
 const BlogRow = ({ blog, refetch, index }) => {
   const [loading, setLoading] = useState(false);
   const handleApprove = (id) => {
-    setLoading(true);
-    (async () => {
-      const { data } = primaryAxios.put(`/blog-approve?id=${id}`, {
-        approve: "approve",
-      });
-      if (data?.success) {
-        refetch();
-        alert("approved");
-        setLoading(false);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to approve this?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Approve",
+    }).then((willDelete) => {
+      if (willDelete.isConfirmed) {
+        setLoading(true);
+        (async () => {
+          const { data } = await primaryAxios.put(`/blog-approve?id=${id}`, {
+            approve: "approve",
+          });
+          if (data.success) {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-right",
+              iconColor: "green",
+              customClass: {
+                popup: "colored-toast",
+              },
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+            });
+            await Toast.fire({
+              icon: "success",
+              title: "Approved",
+            });
+            refetch();
+            setLoading(false);
+          }
+        })();
       }
-    })();
+    });
+  };
+  const handleRemove = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to remove this?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, remove it!",
+    }).then((willDelete) => {
+      if (willDelete.isConfirmed) {
+        setLoading(true);
+        (async () => {
+          const { data } = await primaryAxios.put(`/blog-approve?id=${id}`, {
+            approve: "",
+          });
+          if (data.success) {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-right",
+              iconColor: "green",
+              customClass: {
+                popup: "colored-toast",
+              },
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+            });
+            await Toast.fire({
+              icon: "success",
+              title: "Removed",
+            });
+            refetch();
+            setLoading(false);
+          }
+        })();
+      }
+    });
+  };
+  const handleDeleteBlog = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((willDelete) => {
+      if (willDelete.isConfirmed) {
+        (async () => {
+          const { data } = await primaryAxios.delete(`/blog/${id}`);
+          if (data.deletedCount > 0) {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-right",
+              iconColor: "green",
+              customClass: {
+                popup: "colored-toast",
+              },
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+            });
+            await Toast.fire({
+              icon: "success",
+              title: "deleted",
+            });
+            refetch();
+          }
+        })();
+      }
+    });
   };
   return (
     <tr className="border-b border-silver">
@@ -54,22 +155,28 @@ const BlogRow = ({ blog, refetch, index }) => {
         </Link>
       </td>
       <td className="flex justify-center my-2">
-        <button
-          onClick={() => handleApprove(blog?._id)}
-          disabled={blog?.approve}
-          className={`text-neutral border border-neutral hover:bg-primary duration-150 ${
-            blog?.approve ? "bg-[#b9b9b9]" : "bg-[#56be79]"
-          } px-2 text-center py-1 rounded uppercase font-bold text-sm`}
-        >
-          {loading && !blog?.approve ? (
-            <FaSpinner className="animate-spin" />
-          ) : (
-            <>{blog?.approve ? "Approved" : "Approve"}</>
-          )}
-        </button>
+        {blog?.approve ? (
+          <button
+            onClick={() => handleRemove(blog?._id)}
+            className="text-white border border-neutral duration-150 bg-[#be5670] px-2 text-center py-1 rounded uppercase font-bold text-sm"
+          >
+            {loading ? <FaSpinner className="animate-spin" /> : <>Remove</>}
+          </button>
+        ) : (
+          <button
+            onClick={() => handleApprove(blog?._id)}
+            className="text-neutral border border-neutral hover:bg-primary duration-150 bg-[#56be79] px-2 text-center py-1 rounded uppercase font-bold text-sm"
+          >
+            {loading ? <FaSpinner className="animate-spin" /> : <>Approved</>}
+          </button>
+        )}
       </td>
       <td>
-        <button className="text-white border border-neutral hover:bg-primary duration-150 bg-[#be5656] px-2 py-1 rounded uppercase font-bold text-sm">
+        <button
+          type="button"
+          onClick={() => handleDeleteBlog(blog?._id)}
+          className="text-white border border-neutral hover:bg-primary duration-150 bg-[#be5656] px-2 py-1 rounded uppercase font-bold text-sm"
+        >
           Delete
         </button>
       </td>

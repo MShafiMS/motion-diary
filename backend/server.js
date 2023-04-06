@@ -52,7 +52,7 @@ async function run() {
 
     app.delete("/user/:id", async (req, res) => {
       const id = req.params.id;
-      const query = { _id: ObjectId(id) };
+      const query = { _id: new ObjectId(id) };
       const result = await userCollection.deleteOne(query);
       res.send(result);
     });
@@ -85,8 +85,18 @@ async function run() {
       res.send(blogs);
     });
     app.post("/blogs", async (req, res) => {
-      const { title, img, category, description, date, blog, author, email } =
-        req.body;
+      const {
+        title,
+        img,
+        category,
+        description,
+        date,
+        blog,
+        author,
+        email,
+        like,
+        comment,
+      } = req.body;
       const addblog = {
         title: title,
         img: img,
@@ -96,6 +106,8 @@ async function run() {
         author: author,
         email: email,
         date: date,
+        like: like,
+        comment: comment,
       };
       const result = await blogCollection.insertOne(addblog);
       res.send(result);

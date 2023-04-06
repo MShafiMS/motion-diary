@@ -1,15 +1,9 @@
-import { useQuery } from "react-query";
-import primaryAxios from "../api/primaryAxios";
+import { useBlogContext } from "@component/Hooks/BlogsContext";
 import BlogRow from "./BlogRow";
 import AdminLayout from "./layout";
 
 const ManageBlogs = () => {
-  const {
-    data: blogs,
-    isLoading,
-    refetch,
-  } = useQuery(["blogs"], () => primaryAxios.get(`/blogs`));
-
+  const { blogs, isLoading, refetch } = useBlogContext();
   return (
     <div>
       <div className="overflow-x-auto w-full">

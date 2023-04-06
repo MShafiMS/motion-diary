@@ -1,5 +1,5 @@
+import { useBlogContext } from "@component/Hooks/BlogsContext";
 import useRole from "@component/Hooks/useAdmin";
-import useBlogs from "@component/Hooks/useBlogs";
 import auth from "@component/firebase.init";
 import axios from "axios";
 import { signOut } from "firebase/auth";
@@ -15,7 +15,7 @@ import Loader from "./Components/shared/Loader/Loader";
 import primaryAxios from "./api/primaryAxios";
 const createpost = () => {
   const { quill, quillRef } = useQuill();
-  const [blogs, isLoading, refetch] = useBlogs();
+  const { blogs, isLoading, refetch } = useBlogContext();
   const [user, loading] = useAuthState(auth);
 
   const [description, setDescription] = useState(null);
@@ -62,8 +62,8 @@ const createpost = () => {
       }
     });
     reset();
-    router.push("/");
     refetch();
+    router.push("/");
   };
 
   useEffect(() => {

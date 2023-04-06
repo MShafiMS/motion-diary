@@ -1,9 +1,9 @@
-import useBlogs from "@component/Hooks/useBlogs";
+import { useBlogContext } from "@component/Hooks/BlogsContext";
 import Loader from "../../shared/Loader/Loader";
 import Blog from "./Blog";
 
 const Blogs = () => {
-  const [blogs, isLoading] = useBlogs();
+  const { blogs, isLoading, refetch } = useBlogContext();
 
   if (isLoading) {
     return <Loader />;
@@ -15,9 +15,13 @@ const Blogs = () => {
           ?.slice()
           .reverse()
           .map((blog, index) => (
-            <div key={index}>
-              <Blog blog={blog} />
-            </div>
+            <>
+              {blog?.approve && (
+                <div key={index}>
+                  <Blog blog={blog} />
+                </div>
+              )}
+            </>
           ))}
       </div>
     </>

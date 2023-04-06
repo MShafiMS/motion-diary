@@ -122,7 +122,7 @@ const Nav = () => {
                             href="#"
                             className="border-t inline-block w-full text-center py-1.5 hover:bg-primary hover:border-primary"
                           >
-                            Saved Blogs
+                            Favorite Blogs
                           </a>
                         </li>
                         <li className="w-full">
