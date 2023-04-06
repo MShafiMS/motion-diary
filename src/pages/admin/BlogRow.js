@@ -1,41 +1,22 @@
 import Link from "next/link";
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
-import Swal from "sweetalert2";
 import primaryAxios from "../api/primaryAxios";
 
 const BlogRow = ({ blog, refetch, index }) => {
   const [loading, setLoading] = useState(false);
   const handleApprove = (id) => {
     setLoading(true);
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Approve",
-    }).then((willApprove) => {
-      if (willApprove.isConfirmed) {
-        (async () => {
-          const { data } = primaryAxios.put(`/blog-approve?id=${id}`, {
-            approve: "approve",
-          });
-          if (data?.success) {
-            refetch();
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Successfully Approved",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            setLoading(false);
-          }
-        })();
+    (async () => {
+      const { data } = primaryAxios.put(`/blog-approve?id=${id}`, {
+        approve: "approve",
+      });
+      if (data?.success) {
+        refetch();
+        alert("approved");
+        setLoading(false);
       }
-    });
+    })();
   };
   const { title, author, date, _id, img, approve } = blog;
   return (
@@ -81,7 +62,11 @@ const BlogRow = ({ blog, refetch, index }) => {
             approve ? "bg-[#b9b9b9]" : "bg-[#56be79]"
           } px-2 text-center py-1 rounded uppercase font-bold text-sm`}
         >
-          {loading && !approve ? <FaSpinner className="animate-spin" /> : <>{approve ? "Approved" : "Approve"}</>}
+          {loading && !approve ? (
+            <FaSpinner className="animate-spin" />
+          ) : (
+            <>{approve ? "Approved" : "Approve"}</>
+          )}
         </button>
       </td>
       <td>
