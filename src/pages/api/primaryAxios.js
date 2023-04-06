@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const primaryAxios = axios.create({
-  baseURL: "http://localhost:5000/",
+  baseURL: "https://motion-diary.onrender.com/",
 });
 
 export default primaryAxios;
