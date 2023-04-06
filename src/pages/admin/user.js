@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { FaSpinner } from "react-icons/fa";
 import { useQuery } from "react-query";
+import Swal from "sweetalert2";
 import primaryAxios from "../api/primaryAxios";
 import AdminLayout from "./layout";
 
@@ -255,6 +256,7 @@ const User = () => {
         </td>
         <td>
           <button
+            onClick={() => handleDeleteUser(_id)}
             className="bg-primary px-2 rounded uppercase font-bold text-sm"
           >
             Delete

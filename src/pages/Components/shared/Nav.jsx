@@ -56,7 +56,7 @@ const Nav = () => {
         </div>
         {UserImpl ? (
           <>
-            <div className="relative">
+            <div className="relative lg:block hidden">
               <button
                 type="button"
                 className="inline-block w-max font-medium border-white hover:border-primary/30 border-2 duration-200 rounded-lg"
@@ -201,8 +201,43 @@ const Nav = () => {
             <RiCloseLine />
           </button>
         </div>
-        <div className="h-full flex flex-col items-center justify-center">
-          <ul className="space-y-6 uppercase font-medium text-lg text-center">
+        <div className="h-full flex flex-col items-center justify-start mt-14">
+          <div>
+            {UserImpl?.photoURL ? (
+              <img src={UserImpl?.photoURL} alt="profile" />
+            ) : (
+              <CgProfile className="text-5xl mx-auto shadow-md shadow-primary rounded-full" />
+            )}
+            <div className="text-center my-2">
+              <p className="font-medium uppercase">{UserImpl?.displayName}</p>
+              <p className="text-xs text-neutral italic">{UserImpl?.email}</p>
+            </div>
+            {role === "admin" && (
+              <Link
+                href="/createpost"
+                className="block text-center my-2 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/60 font-medium px-5  py-1"
+              >
+                Post A Blog
+              </Link>
+            )}
+            {role === "author" && (
+              <Link
+                href="/createpost"
+                className="block text-center my-2 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/60 font-medium px-5  py-1"
+              >
+                Post A Blog
+              </Link>
+            )}
+            {role === "admin" && (
+              <Link
+                href="/admin/user"
+                className="block text-center my-2 mx-auto w-fit uppercase border-2 rounded-lg font-medium px-5  py-1"
+              >
+                Admin Controls
+              </Link>
+            )}
+          </div>
+          <ul className="space-y-4 uppercase font-medium text-lg text-center">
             <li>
               <Link href="/">Home</Link>
             </li>
@@ -224,12 +259,6 @@ const Nav = () => {
           </ul>
           {UserImpl ? (
             <div className="uppercase py-3 font-medium w-full flex flex-col gap-3 justify-center items-center text-lg">
-              <Link
-                href="/createpost"
-                className="bg-black rounded-sm text-white px-3 py-1"
-              >
-                Post Blog
-              </Link>
               <button
                 onClick={() => signOut(auth)}
                 type="button"

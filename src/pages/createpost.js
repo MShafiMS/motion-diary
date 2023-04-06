@@ -101,11 +101,11 @@ const createpost = () => {
     router.push("/login");
   }
   return (
-    <div className="mx-8 text-neutral">
+    <div className="lg:mx-8 mx-4 text-neutral">
       <Head>
         <title>Create Blog Post</title>
       </Head>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex gap-6 my-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="lg:flex gap-6 my-6">
         <div className="w-full">
           <h1 className="text-3xl font-semibold uppercase mb-6">
             Create Your Blog
@@ -115,18 +115,20 @@ const createpost = () => {
             type="text"
             {...register("title")}
             required
-            className="border border-[#808080]/40 p-3 w-full text-lg outline-none focus:outline-none font-semibold"
+            className="border border-[#808080]/40 p-3 lg:mb-0 mb-6 w-full text-lg outline-none focus:outline-none font-semibold"
             placeholder="Blog Title"
           />
-          <p className="uppercase font-medium bg-silver px-1 mt-8">
-            Description
-          </p>
-          <div style={{ width: "100%", height: 300 }}>
-            <div ref={quillRef} />
+          <div className="h-full lg:block hidden">
+            <p className="uppercase font-medium bg-silver px-1 mt-8">
+              Description
+            </p>
+            <div style={{ width: "100%", height: 300 }}>
+              <div ref={quillRef} />
+            </div>
           </div>
         </div>
-        <div className="w-7/12">
-          <div className="flex w-full justify-end">
+        <div className="lg:w-7/12">
+          <div className="lg:flex w-full justify-end hidden">
             <button
               type="submit"
               className="uppercase bg-primary font-medium px-3 py-2 rounded text-white mb-5"
@@ -172,7 +174,7 @@ const createpost = () => {
               </label>
             </div>
           </div>
-          <p className="uppercase font-medium bg-silver mt-8 px-1">
+          <p className="uppercase font-medium bg-silver lg:mt-8 mt-6 px-1">
             Blog Category
           </p>
           <div className="p-2 border border-[#808080]/40">
@@ -275,6 +277,14 @@ const createpost = () => {
               >
                 Fashion
               </label>
+            </div>
+          </div>
+          <div className="lg:hidden h-[90vh] mb-36">
+            <p className="uppercase font-medium bg-silver px-1 mt-8">
+              Description
+            </p>
+            <div style={{ width: "100%", height: "100%" }}>
+              <div ref={quillRef} />
             </div>
           </div>
         </div>
