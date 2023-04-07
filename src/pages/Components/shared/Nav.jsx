@@ -21,6 +21,8 @@ const Nav = () => {
   const [userNav, setUserNav] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const currentUser = users?.data?.find((usr) => usr?._id === userData?._id);
+
   const handleSendRequest = async () => {
     setLoading(true);
     (async () => {
@@ -37,7 +39,6 @@ const Nav = () => {
     })();
   };
 
-  
   return (
     <div className="bg-white">
       <Link href="/">
@@ -114,7 +115,7 @@ const Nav = () => {
                       </p>
                     </div>
                     <div className="mt-4 w-full">
-                      {!role && (
+                      {!currentUser?.role && (
                         <button
                           onClick={() => handleSendRequest()}
                           disabled={loading}
@@ -123,7 +124,7 @@ const Nav = () => {
                           {loading ? "loading..." : "Request to be a blogger"}
                         </button>
                       )}
-                      {role === "requester" && (
+                      {currentUser?.role === "requester" && (
                         <button
                           disabled
                           className="block text-center my-3 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/20 font-medium px-5  py-1 text-sm"
@@ -131,7 +132,7 @@ const Nav = () => {
                           Request Send
                         </button>
                       )}
-                      {role === "admin" && (
+                      {currentUser?.role === "admin" && (
                         <Link
                           href="/createpost"
                           className="block text-center my-4 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/60 font-medium px-5  py-1"
@@ -139,7 +140,7 @@ const Nav = () => {
                           Post A Blog
                         </Link>
                       )}
-                      {role === "author" && (
+                      {currentUser?.role === "author" && (
                         <Link
                           href="/createpost"
                           className="block text-center my-4 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/60 font-medium px-5  py-1"
@@ -173,7 +174,7 @@ const Nav = () => {
                           </a>
                         </li>
                       </ul>
-                      {role === "admin" && (
+                      {currentUser?.role === "admin" && (
                         <Link
                           href="/admin/user"
                           className="block text-center my-2 mx-auto w-fit uppercase border-2 rounded bg-black font-medium px-5  py-1"
@@ -251,7 +252,7 @@ const Nav = () => {
               <p className="font-medium uppercase">{UserImpl?.displayName}</p>
               <p className="text-xs text-neutral italic">{UserImpl?.email}</p>
             </div>
-            {!role && (
+            {!currentUser?.role && (
               <button
                 onClick={() => handleSendRequest()}
                 disabled={loading}
@@ -260,7 +261,7 @@ const Nav = () => {
                 {loading ? "loading..." : "Request to be a blogger"}
               </button>
             )}
-            {role === "requester" && (
+            {currentUser?.role === "requester" && (
               <button
                 disabled
                 className="block text-center my-3 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/20 font-medium px-5  py-1 text-sm"
@@ -268,7 +269,7 @@ const Nav = () => {
                 Request Send
               </button>
             )}
-            {role === "admin" && (
+            {currentUser?.role === "admin" && (
               <Link
                 href="/createpost"
                 className="block text-center my-2 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/60 font-medium px-5  py-1"
@@ -276,7 +277,7 @@ const Nav = () => {
                 Post A Blog
               </Link>
             )}
-            {role === "author" && (
+            {currentUser?.role === "author" && (
               <Link
                 href="/createpost"
                 className="block text-center my-2 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/60 font-medium px-5  py-1"
@@ -284,7 +285,7 @@ const Nav = () => {
                 Post A Blog
               </Link>
             )}
-            {role === "admin" && (
+            {currentUser?.role === "admin" && (
               <Link
                 href="/admin/user"
                 className="block text-center my-2 mx-auto w-fit uppercase border-2 rounded-lg font-medium px-5  py-1"
