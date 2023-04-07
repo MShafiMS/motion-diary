@@ -1,8 +1,10 @@
 import { useBlogContext } from "@component/Hooks/BlogsContext";
 import auth from "@component/firebase.init";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useForm } from "react-hook-form";
 import ReactHtmlParser from "react-html-parser";
 import { AiFillLike } from "react-icons/ai";
 import { MdFavorite } from "react-icons/md";
@@ -18,11 +20,16 @@ const BlogsView = () => {
   const blog = blogs?.data.find((s) => blogId === s._id);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLikeLoading, setIsLikeLoading] = useState(false);
+  const [isCommentLoading, setIsCommentLoading] = useState(false);
+
+  const { handleSubmit, reset } = useForm();
+  const [isComment, setIsComment] = useState("");
 
   const checkLike = blog?.like?.find((l) => l.email === user?.email);
 
   const handleLike = (id) => {
     setIsLikeLoading(true);
+    refetch();
     if (blog?.like) {
       (async () => {
         const { data } = await primaryAxios.put(`/blog-likes?id=${id}`, {
@@ -48,6 +55,7 @@ const BlogsView = () => {
 
   const handleRemoveLike = (id) => {
     setIsLikeLoading(true);
+    refetch();
     let totalLikes = blog?.like;
     const index = blog?.like?.indexOf(checkLike);
     if (index > -1) {
@@ -64,9 +72,62 @@ const BlogsView = () => {
     })();
   };
 
+  const onSubmit = () => {
+    setIsCommentLoading(true);
+    refetch();
+    if (blog?.comment) {
+      (async () => {
+        const { data } = await primaryAxios.put(
+          `/blog-comments?id=${blog?._id}`,
+          {
+            comment: [
+              ...blog?.comment,
+              {
+                name: user?.displayName,
+                photoUrs: user?.photoURL,
+                email: user?.email,
+                comment: isComment,
+              },
+            ],
+          }
+        );
+        if (data.success) {
+          refetch();
+          setIsComment("");
+          reset();
+          setIsCommentLoading(false);
+        }
+      })();
+    } else {
+      (async () => {
+        const { data } = await primaryAxios.put(
+          `/blog-comments?id=${blog?._id}`,
+          {
+            comment: [
+              {
+                name: user?.displayName,
+                photoUrs: user?.photoURL,
+                email: user?.email,
+                comment: isComment,
+              },
+            ],
+          }
+        );
+        if (data.success) {
+          refetch();
+          setIsComment("");
+          reset();
+          setIsCommentLoading(false);
+        }
+      })();
+    }
+  };
+
   if (isLoading) {
     return <Loader />;
   }
+  refetch();
+
   return (
     <div className="mt-16 lg:mx-14 mx-6">
       <div className="text-center">
@@ -77,9 +138,12 @@ const BlogsView = () => {
         <h1 className="font-bold text-4xl my-4">{blog?.title}</h1>
         <p className="text-sm uppercase text-[#808080]">{blog?.date}</p>
       </div>
-      <div className="w-full lg:flex gap-4 items-start my-6">
+      <div className="lg:flex gap-6 my-6">
         <div className="w-full">
-          <img src={blog?.img} className="w-full rounded" alt="" />
+          <div className="w-full">
+            <img src={blog?.img} className="w-full rounded" alt="" />
+          </div>
+          <div className="my-8">{ReactHtmlParser(blog?.blog)}</div>
         </div>
         <div className="lg:w-5/12 lg:mt-0 mt-5">
           <div className="border border-silver relative rounded p-4 text-center">
@@ -109,48 +173,137 @@ const BlogsView = () => {
               </p>
             </div>
           </div>
-          <div className="border text-neutral border-silver mt-3 rounded p-2 gap-2 flex items-center justify-center">
-            {checkLike ? (
+          {user ? (
+            <div className="border text-neutral border-silver mt-3 rounded p-2 gap-2 flex items-center justify-center">
+              {checkLike ? (
+                <button
+                  onClick={() => handleRemoveLike(blog?._id)}
+                  disabled={isLikeLoading}
+                  className="w-full py-4 gap-2 border border-silver rounded bg-white font-semibold uppercase flex items-center justify-center text-[#265fda]"
+                >
+                  {isLikeLoading ? (
+                    <RiLoader4Fill className="text-2xl animate-spin opacity-50" />
+                  ) : (
+                    <>
+                      <AiFillLike className="text-2xl" /> Like
+                    </>
+                  )}
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleLike(blog?._id)}
+                  disabled={isLikeLoading}
+                  className="w-full py-4 gap-2 border border-silver rounded bg-white font-semibold uppercase flex items-center justify-center hover:text-[#265fda]/50"
+                >
+                  {isLikeLoading ? (
+                    <RiLoader4Fill className="text-2xl animate-spin opacity-50" />
+                  ) : (
+                    <>
+                      <AiFillLike className="text-2xl" /> Like
+                    </>
+                  )}
+                </button>
+              )}
               <button
-                onClick={() => handleRemoveLike(blog?._id)}
-                disabled={isLikeLoading}
-                className="w-full py-4 gap-2 border border-silver rounded bg-white font-semibold uppercase flex items-center justify-center text-[#265fda]"
+                onClick={() => setIsFavorite(!isFavorite)}
+                className={`w-full py-4 gap-2 border border-silver rounded bg-white font-semibold uppercase flex items-center justify-center ${
+                  isFavorite ? "text-[#d12533]" : "lg:hover:text-[#e24a56]/50"
+                }`}
               >
-                {isLikeLoading ? (
-                  <RiLoader4Fill className="text-2xl animate-spin opacity-50" />
-                ) : (
-                  <>
-                    <AiFillLike className="text-2xl" /> Like
-                  </>
-                )}
+                <MdFavorite className="text-2xl" /> Favorite
               </button>
+            </div>
+          ) : (
+            <div className="border text-neutral border-silver mt-3 rounded p-2 gap-2 flex items-center justify-center">
+              <Link
+                href="/login"
+                className="w-full py-4 gap-2 border border-silver rounded bg-white font-semibold uppercase flex items-center justify-center lg:hover:text-[#265fda]/50"
+              >
+                <AiFillLike className="text-2xl" /> Like
+              </Link>
+              <button
+                onClick={() => setIsFavorite(!isFavorite)}
+                className={`w-full py-4 gap-2 border border-silver rounded bg-white font-semibold uppercase flex items-center justify-center ${
+                  isFavorite ? "text-[#d12533]" : "lg:hover:text-[#e24a56]/50"
+                }`}
+              >
+                <MdFavorite className="text-2xl" /> Favorite
+              </button>
+            </div>
+          )}
+          {/* comment */}
+          <div className="w-full border border-silver rounded p-2 my-6">
+            <p className="pb-2 px-1 border-b border-silver text-neutral font-medium">
+              {blog?.comment?.length} Comments
+            </p>
+            {user ? (
+              <div className="flex items-start gap-2 border-b border-silver my-5 pb-5">
+                <img
+                  src="https://schooloflanguages.sa.edu.au/wp-content/uploads/2017/11/placeholder-profile-sq-300x300.jpg"
+                  alt="profile"
+                  className="w-16 h-16 object-cover object-center rounded-full"
+                />
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="border border-silver rounded"
+                >
+                  <textarea
+                    onChange={(e) => setIsComment(e.target.value)}
+                    value={isComment}
+                    name=""
+                    id=""
+                    cols="30"
+                    rows="2"
+                    className="w-full outline-none focus:outline-none p-2 font-medium text-neutral"
+                    placeholder="Add a comment..."
+                  ></textarea>
+                  <div className="w-full bg-[#c9c9c9] rounded-b flex justify-end px-2 py-1">
+                    <button
+                      type="submit"
+                      disabled={isCommentLoading}
+                      className="uppercase font-medium text-sm px-2 py-0.5 text-white rounded-sm bg-[#6277af]"
+                    >
+                      {isCommentLoading ? (
+                        <RiLoader4Fill className="text-xl animate-spin opacity-50" />
+                      ) : (
+                        <>send</>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </div>
             ) : (
-              <button
-                onClick={() => handleLike(blog?._id)}
-                disabled={isLikeLoading}
-                className="w-full py-4 gap-2 border border-silver rounded bg-white font-semibold uppercase flex items-center justify-center hover:text-[#265fda]/50"
-              >
-                {isLikeLoading ? (
-                  <RiLoader4Fill className="text-2xl animate-spin opacity-50" />
-                ) : (
-                  <>
-                    <AiFillLike className="text-2xl" /> Like
-                  </>
-                )}
-              </button>
+              <p className="my-2">
+                To add a Like or Comment please <Link href="/login" className="underline text-[#2f7bee]">Login</Link> first
+              </p>
             )}
-            <button
-              onClick={() => setIsFavorite(!isFavorite)}
-              className={`w-full py-4 gap-2 border border-silver rounded bg-white font-semibold uppercase flex items-center justify-center ${
-                isFavorite ? "text-[#d12533]" : "lg:hover:text-[#e24a56]/50"
-              }`}
-            >
-              <MdFavorite className="text-2xl" /> Favorite
-            </button>
+            <div className="flex flex-col border-t border-silver mb-5">
+              {blog?.comment
+                ?.slice()
+                .reverse()
+                .map((com, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-start gap-2 text-neutral border-b border-silver py-4"
+                  >
+                    <img
+                      src={
+                        com?.photoURL ||
+                        "https://schooloflanguages.sa.edu.au/wp-content/uploads/2017/11/placeholder-profile-sq-300x300.jpg"
+                      }
+                      alt=""
+                      className="w-12 h-12 object-cover object-center rounded-full"
+                    />
+                    <div>
+                      <h4 className="font-medium">{com?.name}</h4>
+                      <p>{com?.comment}</p>
+                    </div>
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       </div>
-      <div className="my-8">{ReactHtmlParser(blog?.blog)}</div>
     </div>
   );
 };
