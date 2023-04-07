@@ -1,5 +1,6 @@
 import { useBlogContext } from "@component/Hooks/BlogsContext";
 import auth from "@component/firebase.init";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -130,6 +131,9 @@ const BlogsView = () => {
 
   return (
     <div className="mt-16 lg:mx-14 mx-6">
+      <Head>
+        <title>{blog?.title}</title>
+      </Head>
       <div className="text-center">
         <p className="uppercase text-sm">
           <sup className="italic">in</sup>{" "}
@@ -274,7 +278,11 @@ const BlogsView = () => {
               </div>
             ) : (
               <p className="my-2">
-                To add a Like or Comment please <Link href="/login" className="underline text-[#2f7bee]">Login</Link> first
+                To add a Like or Comment please{" "}
+                <Link href="/login" className="underline text-[#2f7bee]">
+                  Login
+                </Link>{" "}
+                first
               </p>
             )}
             <div className="flex flex-col border-t border-silver mb-5">

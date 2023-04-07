@@ -1,6 +1,7 @@
 import useRole from "@component/Hooks/useAdmin";
 import auth from "@component/firebase.init";
 import { signOut } from "firebase/auth";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Loader from "../Components/shared/Loader/Loader";
@@ -17,6 +18,9 @@ const AdminLayout = ({ children }) => {
   }
   return (
     <div className="bg-white flex justify-center w-full border-t border-silver">
+      <Head>
+        <title>Admin Dashboard</title>
+      </Head>
       <div className="w-1/5 relative h-[80vh] bg-neutral">
         <div className="absolute top-0 left-0 w-full">
           <ul className="w-full flex flex-col items-center gap-4 p-2 uppercase font-medium">
