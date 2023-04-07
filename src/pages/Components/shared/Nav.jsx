@@ -7,11 +7,11 @@ import Link from "next/link";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { CgProfile } from "react-icons/cg";
-import { FiSearch } from "react-icons/fi";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { RiCloseLine } from "react-icons/ri";
 import Logo from "../images/Logo";
+import Search from "./Search";
 
 const Nav = () => {
   const [UserImpl] = useAuthState(auth);
@@ -67,15 +67,8 @@ const Nav = () => {
             </li>
           </ul>
         </div>
-        <div className="py-4 flex gap-4 items-center w-fit">
-          <div className="relative lg:w-72 w-56">
-            <input
-              type="text"
-              className="w-full bg-silver py-1 rounded pl-8 pr-2 placeholder:uppercase outline-none focus:outline-none"
-              placeholder="Search Blogs"
-            />
-            <FiSearch className="text-neutral absolute left-2 top-1/2 -translate-y-1/2" />
-          </div>
+        <div className="py-4 flex gap-4 items-center lg:justify-center w-full">
+          <Search />
         </div>
         {UserImpl ? (
           <>
