@@ -159,12 +159,12 @@ const Nav = () => {
                           </a>
                         </li>
                         <li className="w-full">
-                          <a
-                            href="#"
+                          <Link
+                            href="/posted"
                             className="border-y inline-block w-full text-center py-1.5 hover:bg-primary hover:border-t-primary"
                           >
                             Posted Blogs
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                       {currentUser?.role === "admin" && (
