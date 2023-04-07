@@ -8,6 +8,7 @@ const useRole = () => {
   const [roleLoading, setRoleLoading] = useState(true);
   const [role, setRole] = useState("");
   const [userName, setUserName] = useState("");
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     if (user?.email) {
@@ -18,10 +19,11 @@ const useRole = () => {
         setRole(data?.role);
         setRoleLoading(false);
         setUserName(data?.name);
+        setUserData(data);
       })();
     }
   }, [user]);
-  return [role, roleLoading, userName];
+  return [role, roleLoading, userName, userData];
 };
 
 export default useRole;

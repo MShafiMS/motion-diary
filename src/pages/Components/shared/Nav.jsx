@@ -1,5 +1,7 @@
 import useRole from "@component/Hooks/useAdmin";
+import useUsers from "@component/Hooks/useUsers";
 import auth from "@component/firebase.init";
+import primaryAxios from "@component/pages/api/primaryAxios";
 import { signOut } from "firebase/auth";
 import Link from "next/link";
 import { useState } from "react";
@@ -13,9 +15,29 @@ import Logo from "../images/Logo";
 
 const Nav = () => {
   const [UserImpl] = useAuthState(auth);
-  const [role, roleLoading] = useRole();
+  const [role, roleLoading, userName, userData] = useRole();
+  const [users, isLoading, refetch] = useUsers();
   const [nav, setNav] = useState(false);
   const [userNav, setUserNav] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSendRequest = async () => {
+    setLoading(true);
+    (async () => {
+      const { data } = await primaryAxios.put(
+        `/user-role?id=${userData?._id}`,
+        {
+          role: "requester",
+        }
+      );
+      if (data.success) {
+        refetch();
+        setLoading(false);
+      }
+    })();
+  };
+
+  
   return (
     <div className="bg-white">
       <Link href="/">
@@ -92,6 +114,23 @@ const Nav = () => {
                       </p>
                     </div>
                     <div className="mt-4 w-full">
+                      {!role && (
+                        <button
+                          onClick={() => handleSendRequest()}
+                          disabled={loading}
+                          className="block text-center my-3 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/70 font-medium px-5  py-1 text-sm"
+                        >
+                          {loading ? "loading..." : "Request to be a blogger"}
+                        </button>
+                      )}
+                      {role === "requester" && (
+                        <button
+                          disabled
+                          className="block text-center my-3 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/20 font-medium px-5  py-1 text-sm"
+                        >
+                          Request Send
+                        </button>
+                      )}
                       {role === "admin" && (
                         <Link
                           href="/createpost"
@@ -212,6 +251,23 @@ const Nav = () => {
               <p className="font-medium uppercase">{UserImpl?.displayName}</p>
               <p className="text-xs text-neutral italic">{UserImpl?.email}</p>
             </div>
+            {!role && (
+              <button
+                onClick={() => handleSendRequest()}
+                disabled={loading}
+                className="block text-center my-3 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/70 font-medium px-5  py-1 text-sm"
+              >
+                {loading ? "loading..." : "Request to be a blogger"}
+              </button>
+            )}
+            {role === "requester" && (
+              <button
+                disabled
+                className="block text-center my-3 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/20 font-medium px-5  py-1 text-sm"
+              >
+                Request Send
+              </button>
+            )}
             {role === "admin" && (
               <Link
                 href="/createpost"

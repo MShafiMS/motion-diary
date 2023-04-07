@@ -1,17 +1,13 @@
+import useUsers from "@component/Hooks/useUsers";
 import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { FaSpinner } from "react-icons/fa";
-import { useQuery } from "react-query";
 import Swal from "sweetalert2";
 import primaryAxios from "../api/primaryAxios";
 import AdminLayout from "./layout";
 
 const User = () => {
-  const {
-    data: users,
-    isLoading,
-    refetch,
-  } = useQuery(["users"], () => primaryAxios.get(`/users`));
+  const [users, isLoading, refetch] = useUsers();
 
   const UserRow = ({ user, refetch, index }) => {
     const [roleModal, setRoleModal] = useState(false);
