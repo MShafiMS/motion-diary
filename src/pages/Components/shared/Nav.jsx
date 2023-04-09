@@ -125,7 +125,7 @@ const Nav = () => {
                           Request Send
                         </button>
                       )}
-                      {currentUser?.role === "admin" && (
+                      {role === "admin" && (
                         <Link
                           href="/createpost"
                           className="block text-center my-4 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/60 font-medium px-5  py-1"
@@ -133,7 +133,7 @@ const Nav = () => {
                           Post A Blog
                         </Link>
                       )}
-                      {currentUser?.role === "author" && (
+                      {role === "author" && (
                         <Link
                           href="/createpost"
                           className="block text-center my-4 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/60 font-medium px-5  py-1"
@@ -167,7 +167,7 @@ const Nav = () => {
                           </Link>
                         </li>
                       </ul>
-                      {currentUser?.role === "admin" && (
+                      {role === "admin" && (
                         <Link
                           href="/admin/user"
                           className="block text-center my-2 mx-auto w-fit uppercase border-2 rounded bg-black font-medium px-5  py-1"
@@ -262,7 +262,7 @@ const Nav = () => {
                 Request Send
               </button>
             )}
-            {currentUser?.role === "admin" && (
+            {role === "admin" && (
               <Link
                 href="/createpost"
                 className="block text-center my-2 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/60 font-medium px-5  py-1"
@@ -270,7 +270,7 @@ const Nav = () => {
                 Post A Blog
               </Link>
             )}
-            {currentUser?.role === "author" && (
+            {role === "author" && (
               <Link
                 href="/createpost"
                 className="block text-center my-2 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/60 font-medium px-5  py-1"
@@ -278,7 +278,7 @@ const Nav = () => {
                 Post A Blog
               </Link>
             )}
-            {currentUser?.role === "admin" && (
+            {role === "admin" && (
               <Link
                 href="/admin/user"
                 className="block text-center my-2 mx-auto w-fit uppercase border-2 rounded-lg font-medium px-5  py-1"
