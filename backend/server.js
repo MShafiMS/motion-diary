@@ -141,6 +141,25 @@ async function run() {
       res.send(result);
     });
 
+    app.put("/edit-blog", async (req, res) => {
+      const { id } = req.query;
+      const { title, img, category, description, updated, blog } = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          title: title,
+          img: img,
+          category: category,
+          description: description,
+          blog: blog,
+          updated: updated,
+        },
+      };
+      const result = await blogCollection.updateOne(filter, updateDoc, options);
+      res.send({ success: true, result });
+    });
+
     app.put("/blog-likes", async (req, res) => {
       const { id } = req.query;
       const { like } = req.body;

@@ -39,6 +39,47 @@ const Nav = () => {
     })();
   };
 
+  const Links = (
+    <>
+      <li className="w-full">
+        <a
+          href="#"
+          className="border-t inline-block w-full text-center py-1.5 hover:bg-primary hover:border-primary"
+        >
+          View Profile
+        </a>
+      </li>
+      <li className="w-full">
+        <a
+          href="#"
+          className="border-t inline-block w-full text-center py-1.5 hover:bg-primary hover:border-primary"
+        >
+          Favorite Blogs
+        </a>
+      </li>
+      {role === "admin" && (
+        <li className="w-full">
+          <Link
+            href="/posted"
+            className="border-y inline-block w-full text-center py-1.5 hover:bg-primary hover:border-t-primary"
+          >
+            Posted Blogs
+          </Link>
+        </li>
+      )}
+      {role === "author" && (
+        <li className="w-full">
+          <Link
+            href="/posted"
+            className="border-y inline-block w-full text-center py-1.5 hover:bg-primary hover:border-t-primary"
+          >
+            Posted Blogs
+          </Link>
+        </li>
+      )}
+    </>
+  );
+
   return (
     <div className="bg-white">
       <Link href="/">
@@ -142,30 +183,7 @@ const Nav = () => {
                         </Link>
                       )}
                       <ul className="flex flex-col items-center justify-center uppercase text-sm">
-                        <li className="w-full">
-                          <a
-                            href="#"
-                            className="border-t inline-block w-full text-center py-1.5 hover:bg-primary hover:border-primary"
-                          >
-                            View Profile
-                          </a>
-                        </li>
-                        <li className="w-full">
-                          <a
-                            href="#"
-                            className="border-t inline-block w-full text-center py-1.5 hover:bg-primary hover:border-primary"
-                          >
-                            Favorite Blogs
-                          </a>
-                        </li>
-                        <li className="w-full">
-                          <Link
-                            href="/posted"
-                            className="border-y inline-block w-full text-center py-1.5 hover:bg-primary hover:border-t-primary"
-                          >
-                            Posted Blogs
-                          </Link>
-                        </li>
+                        {Links}
                       </ul>
                       {role === "admin" && (
                         <Link
@@ -245,6 +263,9 @@ const Nav = () => {
               <p className="font-medium uppercase">{UserImpl?.displayName}</p>
               <p className="text-xs text-neutral italic">{UserImpl?.email}</p>
             </div>
+            <ul className="flex text-white bg-neutral/80 rounded flex-col items-center justify-center uppercase text-sm">
+              {Links}
+            </ul>
             {!currentUser?.role && (
               <button
                 onClick={() => handleSendRequest()}

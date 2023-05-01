@@ -4,6 +4,9 @@ const Blog = ({ blog }) => {
   return (
     <Link href={`/blog/${blog?._id}`}>
       <div>
+        <div className="flex justify-end">
+          <button className="px-4">Edit</button>
+        </div>
         <img src={blog?.img} alt="" className="w-full h-56 object-cover object-center" />
         <p className="text-xs text-center py-6">
           <span className="italic">in</span>{" "}
