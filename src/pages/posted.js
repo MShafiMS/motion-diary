@@ -34,19 +34,11 @@ const posted = () => {
       <Head>
         <title>Posted Blogs</title>
       </Head>
-      <h1 className="lg:text-3xl text-lg mb-5 uppercase">Posted Blogs</h1>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {postedBlogs
-          ?.slice()
-          .reverse()
-          .map((blog, index) => (
-            <div key={index}>
-              <Blog blog={blog} action refetch={refetch} />
-            </div>
-          ))}
-      </div>
-      {postedBlogs?.length === 0 && (
-        <div className="flex flex-col justify-center h-[50vh] items-center">
+      <h1 className="lg:text-2xl font-medium text-neutral text-lg mb-1 uppercase">
+        Posted Blogs ({postedBlogs?.length})
+      </h1>
+      {postedBlogs?.length === 0 ? (
+        <div className="flex flex-col justify-center h-[50vh] p-4 border border-silver items-center">
           <Link
             href="/createpost"
             className="w-fit mx-auto p-6 bg-primary/25 hover:bg-primary/40 rounded-lg"
@@ -59,6 +51,28 @@ const posted = () => {
           <p className="text-lg mt-6 text-center uppercase text-neutral font-medium">
             There is no posted blog!
           </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-4 border border-silver">
+          {postedBlogs
+            ?.slice()
+            .reverse()
+            .map((blog, index) => (
+              <div key={index}>
+                <Blog blog={blog} action refetch={refetch} />
+              </div>
+            ))}
+          <div className="flex flex-col justify-center rounded p-4 border border-silver items-center">
+            <Link
+              href="/createpost"
+              className="w-fit mx-auto p-6 bg-primary/25 hover:bg-primary/40 rounded-lg"
+            >
+              <HiViewGridAdd className="text-4xl text-primary mx-auto" />
+              <p className="text-center font-medium mt-3 uppercase text-neutral">
+                Post A New Blog
+              </p>
+            </Link>
+          </div>
         </div>
       )}
     </div>

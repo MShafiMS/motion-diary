@@ -40,23 +40,6 @@ const Blog = ({ blog, action, refetch }) => {
   };
   return (
     <>
-      {action && (
-        <div className="flex justify-end mb-2 gap-3">
-          <Link
-            href={`/edit/${blog?._id}`}
-            className="px-5 py-0.5 bg-[#4969d3] hover:bg-[#364d8a] text-white rounded font-medium uppercase"
-          >
-            Edit
-          </Link>
-          <button
-            type="button"
-            onClick={() => handleDeleteBlog(blog?._id)}
-            className="px-4 py-0.5 bg-[#c94545] hover:bg-[#a73f3f] text-white rounded font-medium uppercase"
-          >
-            Delete
-          </button>
-        </div>
-      )}
       <Link href={`/blog/${blog?._id}`}>
         <div>
           <img
@@ -79,6 +62,23 @@ const Blog = ({ blog, action, refetch }) => {
           </p>
         </div>
       </Link>
+      {action && (
+        <div className="flex justify-end mt-4 gap-3">
+          <Link
+            href={`/edit/${blog?._id}`}
+            className="px-5 py-0.5 bg-[#4969d3] hover:bg-[#364d8a] text-white rounded font-medium uppercase w-full text-center"
+          >
+            Edit
+          </Link>
+          <button
+            type="button"
+            onClick={() => handleDeleteBlog(blog?._id)}
+            className="px-4 py-0.5 bg-[#c94545] hover:bg-[#a73f3f] text-white rounded font-medium uppercase w-full text-center"
+          >
+            Delete
+          </button>
+        </div>
+      )}
     </>
   );
 };

@@ -89,6 +89,7 @@ const EditBlog = () => {
             updated: date,
           };
           primaryAxios.put(`/edit-blog?id=${blogData?._id}`, addBlog);
+          refetch();
         }
       });
     } else {
@@ -101,9 +102,9 @@ const EditBlog = () => {
         updated: date,
       };
       primaryAxios.put(`/edit-blog?id=${blogData?._id}`, addBlog);
+      refetch();
     }
     reset();
-    refetch();
     setUpdating(false);
     router.push("/posted");
   };
@@ -118,7 +119,6 @@ const EditBlog = () => {
     signOut(auth);
     router.push("/login");
   }
-
   return (
     <div className="lg:mx-8 mx-4 text-neutral">
       <Head>

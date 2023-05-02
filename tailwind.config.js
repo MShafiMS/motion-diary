@@ -23,5 +23,9 @@ module.exports = {
       silver: "#e9e9e9",
     },
   },
-  plugins: [],
+  plugins: [
+  ],
+  // corePlugins: {
+  //   preflight: false,
+  // },
 };

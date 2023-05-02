@@ -6,12 +6,12 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import ReactHtmlParser from "react-html-parser";
 import { AiFillLike } from "react-icons/ai";
 import { MdFavorite } from "react-icons/md";
 import { RiLoader4Fill } from "react-icons/ri";
 import Loader from "../Components/shared/Loader/Loader";
 import primaryAxios from "../api/primaryAxios";
+import CreatePost from "../createpost";
 
 const BlogsView = () => {
   const { query } = useRouter();
@@ -147,7 +147,15 @@ const BlogsView = () => {
           <div className="w-full">
             <img src={blog?.img} className="w-full rounded" alt="" />
           </div>
-          <div className="my-8">{ReactHtmlParser(blog?.blog)}</div>
+          <div className="my-8">
+            <div
+              className="ql-editor"
+              dangerouslySetInnerHTML={{ __html: blog?.blog }}
+            ></div>
+            <div className="hidden">
+              <CreatePost />
+            </div>
+          </div>
         </div>
         <div className="lg:w-5/12 lg:mt-0 mt-5">
           <div className="border border-silver relative rounded p-4 text-center">
