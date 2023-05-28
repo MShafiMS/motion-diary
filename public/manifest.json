@@ -1,13 +1,20 @@
 {
-  "name": "Motion Diary by Muhammad Shafi",
-  "short_name": "Motion Diary",
-  "start_url": "/",
-  "display": "standalone",
   "theme_color": "#F57584",
   "background_color": "#EFEFEF",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Motion Diary",
+  "short_name": "Motion Diary",
+  "description": "A Best Blogging Site By Muhammad Shafi",
   "icons": [
     {
-      "src": "../src/logo.png",
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
