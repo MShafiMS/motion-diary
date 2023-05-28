@@ -1,13 +1,13 @@
 {
-  "name": "My Next.js PWA",
-  "short_name": "Next PWA",
+  "name": "Motion Diary by Muhammad Shafi",
+  "short_name": "Motion Diary",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "theme_color": "#F57584",
+  "background_color": "#EFEFEF",
   "icons": [
     {
-      "src": "/icon.png",
+      "src": "../src/logo.png",
       "sizes": "512x512",
       "type": "image/png"
     }

@@ -35,7 +35,7 @@ const Banner = () => {
         className="mySwiper"
       >
         {blogs?.data?.slice(0, 5).map((blog) => (
-          <>
+          <div key={blog?._id}>
             {blog?.approve && (
               <SwiperSlide key={blog?._id}>
                 <div
@@ -84,7 +84,7 @@ const Banner = () => {
                 </div>
               </SwiperSlide>
             )}
-          </>
+          </div>
         ))}
       </Swiper>
     </div>
