@@ -1,14 +1,13 @@
-import cors from "cors";
-import dotenv from "dotenv";
-import express, { json } from "express";
-import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
+const express = require("express");
+const cors = require("cors");
 const app = express();
-dotenv.config();
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+require("dotenv").config();
 const port = process.env.PORT || 5000;
 
 //Midddle War
 app.use(cors());
-app.use(json());
+app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.nrymvre.mongodb.net/?retryWrites=true&w=majority`;
 
