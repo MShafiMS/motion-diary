@@ -15,13 +15,13 @@ const Blogs = () => {
           ?.slice()
           .reverse()
           .map((blog, index) => (
-            <div key={index}>
+            <>
               {blog?.approve && (
                 <div key={index}>
                   <Blog blog={blog} />
                 </div>
               )}
-            </div>
+            </>
           ))}
       </div>
     </>

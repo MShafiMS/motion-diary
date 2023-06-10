@@ -13,7 +13,7 @@ export const BlogsProvider = ({ children }) => {
     data: blogs,
     isLoading,
     refetch,
-  } = useQuery(["blogsss"], () => primaryAxios.get(`/blogs`));
+  } = useQuery(["blogsss"], async () => await primaryAxios.get(`/blogs`));
   return (
     <BlogContext.Provider value={{ blogs, isLoading, refetch }}>
       {children}

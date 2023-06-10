@@ -186,6 +186,20 @@ async function run() {
       const result = await blogCollection.updateOne(filter, updateDoc, options);
       res.send({ success: true, result });
     });
+
+    app.put("/blog-favorite", async (req, res) => {
+      const { id } = req.query;
+      const { favorite } = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          favorite: favorite,
+        },
+      };
+      const result = await blogCollection.updateOne(filter, updateDoc, options);
+      res.send({ success: true, result });
+    });
   } finally {
   }
 }
