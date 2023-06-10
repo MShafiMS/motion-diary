@@ -19,7 +19,7 @@ const BlogsView = () => {
   const blogId = query.id;
   const { blogs, isLoading, refetch } = useBlogContext();
   const blog = blogs?.data.find((s) => blogId === s._id);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavoriteLoading, setIsFavoriteLoading] = useState(false);
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [isCommentLoading, setIsCommentLoading] = useState(false);
 
@@ -27,6 +27,7 @@ const BlogsView = () => {
   const [isComment, setIsComment] = useState("");
 
   const checkLike = blog?.like?.find((l) => l.email === user?.email);
+  const checkFavorite = blog?.favorite?.find((l) => l.email === user?.email);
 
   const handleLike = (id) => {
     setIsLikeLoading(true);
@@ -69,6 +70,51 @@ const BlogsView = () => {
       if (data.success) {
         refetch();
         setIsLikeLoading(false);
+      }
+    })();
+  };
+
+  const handleFavorite = (id) => {
+    setIsFavoriteLoading(true);
+    refetch();
+    if (blog?.favorite) {
+      (async () => {
+        const { data } = await primaryAxios.put(`/blog-favorite?id=${id}`, {
+          favorite: [...blog?.favorite, { email: user?.email }],
+        });
+        if (data.success) {
+          refetch();
+          setIsFavoriteLoading(false);
+        }
+      })();
+    } else {
+      (async () => {
+        const { data } = await primaryAxios.put(`/blog-favorite?id=${id}`, {
+          favorite: [{ email: user?.email }],
+        });
+        if (data.success) {
+          refetch();
+          setIsFavoriteLoading(false);
+        }
+      })();
+    }
+  };
+
+  const handleRemoveFavorite = (id) => {
+    setIsFavoriteLoading(true);
+    refetch();
+    let totalFavorite = blog?.favorite;
+    const index = blog?.favorite?.indexOf(checkFavorite);
+    if (index > -1) {
+      totalFavorite?.splice(index, 1);
+    }
+    (async () => {
+      const { data } = await primaryAxios.put(`/blog-favorite?id=${id}`, {
+        favorite: totalFavorite,
+      });
+      if (data.success) {
+        refetch();
+        setIsFavoriteLoading(false);
       }
     })();
   };
@@ -216,14 +262,43 @@ const BlogsView = () => {
                   )}
                 </button>
               )}
-              <button
+              {checkFavorite ? (
+                <button
+                  onClick={() => handleRemoveFavorite(blog?._id)}
+                  disabled={isFavoriteLoading}
+                  className="w-full py-4 gap-2 border border-silver rounded bg-white font-semibold uppercase flex items-center justify-center text-[#d12533]"
+                >
+                  {isFavoriteLoading ? (
+                    <RiLoader4Fill className="text-2xl animate-spin opacity-50" />
+                  ) : (
+                    <>
+                      <MdFavorite className="text-2xl" /> Favorite
+                    </>
+                  )}
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleFavorite(blog?._id)}
+                  disabled={isFavoriteLoading}
+                  className="w-full py-4 gap-2 border border-silver rounded bg-white font-semibold uppercase flex items-center justify-center lg:hover:text-[#e24a56]/50"
+                >
+                  {isFavoriteLoading ? (
+                    <RiLoader4Fill className="text-2xl animate-spin opacity-50" />
+                  ) : (
+                    <>
+                      <MdFavorite className="text-2xl" /> Favorite
+                    </>
+                  )}
+                </button>
+              )}
+              {/* <button
                 onClick={() => setIsFavorite(!isFavorite)}
                 className={`w-full py-4 gap-2 border border-silver rounded bg-white font-semibold uppercase flex items-center justify-center ${
                   isFavorite ? "text-[#d12533]" : "lg:hover:text-[#e24a56]/50"
                 }`}
               >
                 <MdFavorite className="text-2xl" /> Favorite
-              </button>
+              </button> */}
             </div>
           ) : (
             <div className="border text-neutral border-silver mt-3 rounded p-2 gap-2 flex items-center justify-center">
