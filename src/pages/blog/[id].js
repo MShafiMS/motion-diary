@@ -3,7 +3,7 @@ import auth from "@component/firebase.init";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { AiFillLike } from "react-icons/ai";
@@ -11,7 +11,6 @@ import { MdFavorite } from "react-icons/md";
 import { RiLoader4Fill } from "react-icons/ri";
 import Loader from "../Components/shared/Loader/Loader";
 import primaryAxios from "../api/primaryAxios";
-import CreatePost from "../createpost";
 
 const BlogsView = () => {
   const { query } = useRouter();
@@ -170,13 +169,16 @@ const BlogsView = () => {
     }
   };
 
+  useEffect(() => {
+    refetch();
+  });
+
   if (isLoading) {
     return <Loader />;
   }
-  refetch();
 
   return (
-    <div className="mt-16 lg:mx-14 mx-6">
+    <div className="lg:mt-16 mt-8 lg:mx-14 mx-6">
       <Head>
         <title>{blog?.title}</title>
       </Head>
@@ -185,7 +187,7 @@ const BlogsView = () => {
           <sup className="italic">in</sup>{" "}
           <span className="text-primary">{blog?.category}</span>
         </p>
-        <h1 className="font-bold text-4xl my-4">{blog?.title}</h1>
+        <h1 className="font-bold text-xl lg:text-4xl my-4">{blog?.title}</h1>
         <p className="text-sm uppercase text-[#808080]">{blog?.date}</p>
       </div>
       <div className="lg:flex gap-6 my-6">
@@ -198,9 +200,9 @@ const BlogsView = () => {
               className="ql-editor"
               dangerouslySetInnerHTML={{ __html: blog?.blog }}
             ></div>
-            <div className="hidden">
+            {/* <div className="hidden">
               <CreatePost />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="lg:w-5/12 lg:mt-0 mt-5">
@@ -308,14 +310,12 @@ const BlogsView = () => {
               >
                 <AiFillLike className="text-2xl" /> Like
               </Link>
-              <button
-                onClick={() => setIsFavorite(!isFavorite)}
-                className={`w-full py-4 gap-2 border border-silver rounded bg-white font-semibold uppercase flex items-center justify-center ${
-                  isFavorite ? "text-[#d12533]" : "lg:hover:text-[#e24a56]/50"
-                }`}
+              <Link
+                href="/login"
+                className="w-full py-4 gap-2 border border-silver rounded bg-white font-semibold uppercase flex items-center justify-center lg:hover:text-[#e24a56]/50"
               >
                 <MdFavorite className="text-2xl" /> Favorite
-              </button>
+              </Link>
             </div>
           )}
           {/* comment */}

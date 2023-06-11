@@ -9,14 +9,19 @@ import "quill/dist/quill.snow.css";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
+import { BiExpand } from "react-icons/bi";
 import { BsCloudUploadFill } from "react-icons/bs";
 import { useQuill } from "react-quilljs";
+import Swal from "sweetalert2";
 import Loader from "./Components/shared/Loader/Loader";
 import primaryAxios from "./api/primaryAxios";
 const createpost = () => {
   const { quill, quillRef } = useQuill();
   const { blogs, isLoading, refetch } = useBlogContext();
   const [user, loading] = useAuthState(auth);
+  const [posting, setPosting] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [fullScreen, setFullScreen] = useState(false);
 
   const [description, setDescription] = useState(null);
   const [value, setValue] = useState(null);
@@ -32,6 +37,7 @@ const createpost = () => {
     formState: { errors },
     watch,
   } = useForm();
+
   let date =
     new Date().toLocaleString("en-US", { month: "long" }) +
     " " +
@@ -41,12 +47,45 @@ const createpost = () => {
   const router = useRouter();
   const image = watch("image");
 
-  const onSubmit = (data) => {
+  // Insert Image(selected by user) to quill
+  const insertToEditor = (url) => {
+    const range = quill.getSelection();
+    quill.insertEmbed(range.index, "image", url);
+  };
+  // Upload Image to Image Server such as AWS S3, Cloudinary, Cloud Storage, etc..
+  const saveToServer = async (file) => {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
+    await axios.post(url, formData).then((res) => {
+      if (res?.data?.success) {
+        insertToEditor(res?.data?.data.url);
+      }
+    });
+    setUploading(false);
+  };
+  // Open Dialog to select Image File
+  const selectLocalImage = () => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+
+    input.onchange = () => {
+      const file = input.files[0];
+      saveToServer(file);
+    };
+  };
+
+  const onSubmit = async (data) => {
+    setPosting(true);
     const image = data.image[0];
     const formData = new FormData();
     formData.append("image", image);
     const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
-    axios.post(url, formData).then((res) => {
+    await axios.post(url, formData).then(async (res) => {
       if (res?.data?.success) {
         const addBlog = {
           title: data?.title,
@@ -60,13 +99,36 @@ const createpost = () => {
           like: [],
           comment: [],
         };
-        primaryAxios.post(`/blogs`, addBlog);
+        await primaryAxios.post(`/blogs`, addBlog);
       }
     });
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-right",
+      iconColor: "green",
+      customClass: {
+        popup: "colored-toast",
+      },
+      showConfirmButton: false,
+      timer: 1000,
+      timerProgressBar: true,
+    });
+    await Toast.fire({
+      icon: "success",
+      title: "Posted",
+    });
+    setPosting(false);
     reset();
     refetch();
-    router.push("/");
+    router.push("/posted");
   };
+
+  useEffect(() => {
+    if (quill) {
+      // Add custom handler for Image Upload
+      quill.getModule("toolbar").addHandler("image", selectLocalImage);
+    }
+  }, [quill]);
 
   useEffect(() => {
     if (quill) {
@@ -101,7 +163,7 @@ const createpost = () => {
     router.push("/login");
   }
   return (
-    <div className="lg:mx-8 mx-4 text-neutral">
+    <div className="relative lg:mx-8 mx-4 text-neutral">
       <Head>
         <title>Create Blog Post</title>
       </Head>
@@ -118,10 +180,23 @@ const createpost = () => {
             className="border border-[#808080]/40 p-3 w-full text-lg outline-none focus:outline-none font-semibold"
             placeholder="Blog Title"
           />
-          <div className="h-[90vh] lg:h-[33vh] lg:mb-0 mb-36">
-            <p className="uppercase font-medium bg-silver px-1 mt-8">
-              Description
-            </p>
+          <div
+            className={`${
+              fullScreen
+                ? "absolute bg-white top-0 right-0 min-h-screen h-full w-full"
+                : "h-[90vh] lg:h-[33vh] lg:mb-0 mb-36"
+            }`}
+          >
+            <div className="bg-silver pl-1 mt-8 flex justify-between">
+              <p className="uppercase font-medium">Blog</p>
+              <button
+                type="button"
+                onClick={() => setFullScreen(!fullScreen)}
+                className="bg-[#808080]/30 hover:bg-[#808080]/50 duration-100 p-1"
+              >
+                <BiExpand title="Full Screen" />
+              </button>
+            </div>
             <div style={{ width: "100%", height: "100%" }}>
               <div ref={quillRef} />
             </div>
@@ -131,9 +206,10 @@ const createpost = () => {
           <div className="lg:flex w-full justify-end hidden">
             <button
               type="submit"
+              disabled={posting}
               className="uppercase bg-primary font-medium px-3 py-2 rounded text-white mb-5"
             >
-              Publish Blog
+              {posting ? "Posting..." : "Publish Blog"}
             </button>
           </div>
           <div>
@@ -281,6 +357,20 @@ const createpost = () => {
           </div>
         </div>
       </form>
+      {posting && (
+        <div className="w-screen h-screen bg-white/40 fixed top-0 left-0 z-10 flex justify-center items-center">
+          <p className="text-center text-4xl text-primary animate-bounce">
+            Posting...
+          </p>
+        </div>
+      )}
+      {uploading && (
+        <div className="w-screen h-screen bg-white/40 fixed top-0 left-0 z-10 flex justify-center items-center">
+          <p className="text-center text-4xl text-primary animate-bounce">
+            Uploading...
+          </p>
+        </div>
+      )}
     </div>
   );
 };

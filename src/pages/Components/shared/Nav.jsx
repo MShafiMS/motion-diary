@@ -4,7 +4,8 @@ import auth from "@component/firebase.init";
 import primaryAxios from "@component/pages/api/primaryAxios";
 import { signOut } from "firebase/auth";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { CgProfile } from "react-icons/cg";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
@@ -20,6 +21,8 @@ const Nav = () => {
   const [nav, setNav] = useState(false);
   const [userNav, setUserNav] = useState(false);
   const [loading, setLoading] = useState(false);
+  
+  const router = useRouter();
 
   const currentUser = users?.data?.find((usr) => usr?._id === userData?._id);
 
@@ -38,6 +41,22 @@ const Nav = () => {
       }
     })();
   };
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      // Update your state here
+      setNav(false)
+    };
+
+    // Listen for route changes
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    // Clean up the event listener on unmount
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, []);
+
 
   const Links = (
     <>
@@ -92,9 +111,6 @@ const Nav = () => {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="#">Features</Link>
-            </li>
-            <li>
               <Link href="#">Life Style</Link>
             </li>
             <li>
@@ -104,7 +120,13 @@ const Nav = () => {
               <Link href="#">Sports</Link>
             </li>
             <li>
-              <Link href="#">About</Link>
+              <Link href="#">Creative</Link>
+            </li>
+            <li>
+              <Link href="#">Fashion</Link>
+            </li>
+            <li>
+              <Link href="/about">About</Link>
             </li>
           </ul>
         </div>
