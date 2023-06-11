@@ -111,19 +111,16 @@ const Nav = () => {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="#">Life Style</Link>
+              <Link href="/travel">Travel</Link>
             </li>
             <li>
-              <Link href="#">Travel</Link>
+              <Link href="/sports">Sports</Link>
             </li>
             <li>
-              <Link href="#">Sports</Link>
+              <Link href="/creative">Creative</Link>
             </li>
             <li>
-              <Link href="#">Creative</Link>
-            </li>
-            <li>
-              <Link href="#">Fashion</Link>
+              <Link href="/fashion">Fashion</Link>
             </li>
             <li>
               <Link href="/about">About</Link>
