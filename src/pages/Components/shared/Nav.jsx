@@ -21,7 +21,7 @@ const Nav = () => {
   const [nav, setNav] = useState(false);
   const [userNav, setUserNav] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   const router = useRouter();
 
   const currentUser = users?.data?.find((usr) => usr?._id === userData?._id);
@@ -45,18 +45,17 @@ const Nav = () => {
   useEffect(() => {
     const handleRouteChange = () => {
       // Update your state here
-      setNav(false)
+      setNav(false);
     };
 
     // Listen for route changes
-    router.events.on('routeChangeComplete', handleRouteChange);
+    router.events.on("routeChangeComplete", handleRouteChange);
 
     // Clean up the event listener on unmount
     return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
+      router.events.off("routeChangeComplete", handleRouteChange);
     };
   }, []);
-
 
   const Links = (
     <>
@@ -332,19 +331,19 @@ const Nav = () => {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="#">Features</Link>
+              <Link href="/travel">Travel</Link>
             </li>
             <li>
-              <Link href="#">Life Style</Link>
+              <Link href="/sports">Sports</Link>
             </li>
             <li>
-              <Link href="#">Travel</Link>
+              <Link href="/creative">Creative</Link>
             </li>
             <li>
-              <Link href="#">Sports</Link>
+              <Link href="/fashion">Fashion</Link>
             </li>
             <li>
-              <Link href="#">About</Link>
+              <Link href="/about">About</Link>
             </li>
           </ul>
           {UserImpl ? (
