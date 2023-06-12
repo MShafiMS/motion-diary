@@ -153,7 +153,11 @@ const Nav = () => {
                 <div className="absolute top-8 -left-36 w-64 rounded-lg z-20 h-max bg-neutral">
                   <div className="w-full text-white mt-6">
                     {UserImpl?.photoURL ? (
-                      <img src={UserImpl?.photoURL} alt="profile" />
+                      <img
+                        src={UserImpl?.photoURL}
+                        className="mx-auto w-20 h-20 rounded-full"
+                        alt="profile"
+                      />
                     ) : (
                       <CgProfile className="text-5xl mx-auto shadow-md shadow-primary rounded-full" />
                     )}

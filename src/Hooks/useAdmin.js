@@ -5,10 +5,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 const useRole = () => {
   const [user] = useAuthState(auth);
-  const [roleLoading, setRoleLoading] = useState(true);
   const [role, setRole] = useState("");
-  const [userName, setUserName] = useState("");
-  const [userData, setUserData] = useState(null);
+  const [roleLoading, setRoleLoading] = useState(true);
+  const [userData, setUserData] = useState("");
 
   useEffect(() => {
     if (user?.email) {
@@ -18,12 +17,11 @@ const useRole = () => {
         );
         setRole(data?.data?.role);
         setRoleLoading(false);
-        setUserName(data?.data.name);
         setUserData(data?.data);
       })();
     }
   }, [user]);
-  return [role, roleLoading, userName, userData];
+  return [role, roleLoading, userData];
 };
 
 export default useRole;

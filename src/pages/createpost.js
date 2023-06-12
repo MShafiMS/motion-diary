@@ -18,6 +18,7 @@ import blogService from "./api/blogService";
 const createpost = () => {
   const { quill, quillRef } = useQuill();
   const { blogs, isLoading, refetch } = useBlogContext();
+  const [role, roleLoading, userData] = useRole();
   const [user, loading] = useAuthState(auth);
   const [posting, setPosting] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -150,8 +151,6 @@ const createpost = () => {
     }
   }, [image]);
 
-  const [role, roleLoading] = useRole();
-
   if (loading) {
     return <Loader />;
   }
@@ -162,6 +161,7 @@ const createpost = () => {
     signOut(auth);
     router.push("/login");
   }
+
   return (
     <div className="relative lg:mx-8 mx-4 text-neutral">
       <Head>
@@ -376,3 +376,5 @@ const createpost = () => {
 };
 
 export default createpost;
+
+

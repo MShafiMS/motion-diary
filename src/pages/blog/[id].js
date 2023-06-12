@@ -130,7 +130,7 @@ const BlogsView = () => {
               ...blog?.comment,
               {
                 name: user?.displayName,
-                photoUrs: user?.photoURL,
+                photoUrl: user?.photoURL,
                 email: user?.email,
                 comment: isComment,
               },
@@ -152,7 +152,7 @@ const BlogsView = () => {
             comment: [
               {
                 name: user?.displayName,
-                photoUrs: user?.photoURL,
+                photoUrl: user?.photoURL,
                 email: user?.email,
                 comment: isComment,
               },
@@ -215,13 +215,16 @@ const BlogsView = () => {
               About Author
             </p>
             <img
-              src="https://schooloflanguages.sa.edu.au/wp-content/uploads/2017/11/placeholder-profile-sq-300x300.jpg"
+              src={
+                blog?.author?.photoUrl ||
+                "https://schooloflanguages.sa.edu.au/wp-content/uploads/2017/11/placeholder-profile-sq-300x300.jpg"
+              }
               className="w-56 h-56 object-cover object-center mx-auto my-3"
               alt=""
             />
             <div className="text-sm text-neutral tracking-tighter">
               <p className="font-bold text-lg my-1 uppercase">
-                {blog?.author || "Muhammad Shafi"}
+                {blog?.author?.name || "Muhammad Shafi"}
               </p>
               <p className="mb-1">
                 <span className="font-medium">Posted: </span>

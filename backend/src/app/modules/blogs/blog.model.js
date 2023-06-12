@@ -7,7 +7,7 @@ const blogSchema = new Schema({
   category: String,
   description: String,
   blog: String,
-  author: String,
+  author: [],
   email: String,
   date: String,
   like: [],
