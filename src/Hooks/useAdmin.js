@@ -9,19 +9,29 @@ const useRole = () => {
   const [roleLoading, setRoleLoading] = useState(true);
   const [userData, setUserData] = useState("");
 
-  useEffect(() => {
+  const fetchRoleData = async () => {
     if (user?.email) {
-      (async () => {
+      try {
         const { data } = await userService.get(
           `/user-role?email=${user?.email}`
         );
         setRole(data?.data?.role);
-        setRoleLoading(false);
         setUserData(data?.data);
-      })();
+      } catch (error) {
+        // Handle error if needed
+      }
     }
+    setRoleLoading(false);
+  };
+
+  useEffect(() => {
+    fetchRoleData();
   }, [user]);
-  return [role, roleLoading, userData];
+
+  const refetch = () => {
+    fetchRoleData();
+  };
+  return [role, roleLoading, userData, refetch];
 };
 
 export default useRole;

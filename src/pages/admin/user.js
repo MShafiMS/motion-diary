@@ -131,7 +131,7 @@ const User = () => {
         <td>
           <button
             onClick={() => setRoleModal(!roleModal)}
-            className="hover:text-white hover:bg-primary duration-150 bg-[#808080]/40 px-2 rounded uppercase font-bold text-sm"
+            className="hover:text-white hover:bg-primary duration-150 bg-[#808080]/40 px-2 rounded uppercase font-bold w-max text-sm"
           >
             Change Role
           </button>
@@ -143,7 +143,7 @@ const User = () => {
             <div className="fixed top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2 w-96 h-64 bg-neutral shadow-md shadow-primary  rounded-2xl text-white">
               <div className="my-4">
                 {user?.photoUrl ? (
-                  <img src={user?.photoUrl} alt="profile" />
+                  <img src={user?.photoUrl} className="w-14 h-14 rounded-full mx-auto shadow-md shadow-primary" alt="profile" />
                 ) : (
                   <CgProfile className="text-5xl mx-auto shadow-md shadow-primary rounded-full" />
                 )}
@@ -268,7 +268,7 @@ const User = () => {
 
   return (
     <div>
-      <div className="overflow-x-auto w-full">
+      <div className="overflow-x-auto lg:w-full">
         <table className="w-full text-neutral ">
           <thead>
             <tr className="py-2 border-b border-silver">

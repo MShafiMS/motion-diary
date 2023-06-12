@@ -55,12 +55,12 @@ const Nav = () => {
   const Links = (
     <>
       <li className="w-full">
-        <a
-          href="#"
+        <Link
+          href="/profile"
           className="border-t inline-block w-full text-center py-1.5 hover:bg-primary hover:border-primary"
         >
           View Profile
-        </a>
+        </Link>
       </li>
       <li className="w-full">
         <Link
@@ -133,9 +133,9 @@ const Nav = () => {
                 onClick={() => setUserNav(!userNav)}
               >
                 <p className="px-2 rounded-md border border-[#808080]/30 w-full h-full flex items-center gap-1 text-neutral">
-                  {UserImpl?.displayName?.length > 7
-                    ? UserImpl?.displayName.slice(0, 7)
-                    : UserImpl?.displayName}
+                  {userData?.name?.length > 7
+                    ? userData?.name.slice(0, 7)
+                    : userData?.name}
                   .. <IoMdArrowDropdown className="text-lg" />
                 </p>
               </button>
@@ -148,9 +148,9 @@ const Nav = () => {
               {userNav && (
                 <div className="absolute top-8 -left-36 w-64 rounded-lg z-20 h-max bg-neutral">
                   <div className="w-full text-white mt-6">
-                    {UserImpl?.photoURL ? (
+                    {userData?.photoUrl ? (
                       <img
-                        src={UserImpl?.photoURL}
+                        src={userData?.photoUrl}
                         className="mx-auto w-20 h-20 rounded-full"
                         alt="profile"
                       />
@@ -158,11 +158,9 @@ const Nav = () => {
                       <CgProfile className="text-5xl mx-auto shadow-md shadow-primary rounded-full" />
                     )}
                     <div className="text-center my-2">
-                      <p className="font-medium uppercase">
-                        {UserImpl?.displayName}
-                      </p>
+                      <p className="font-medium uppercase">{userData?.name}</p>
                       <p className="text-xs text-silver italic">
-                        {UserImpl?.email}
+                        {userData?.email}
                       </p>
                     </div>
                     <div className="mt-4 w-full">
@@ -257,7 +255,7 @@ const Nav = () => {
       {/* nav for mobile device */}
       <div
         className={`fixed ${
-          nav ? "top-0" : "top-[-1000px]"
+          nav ? "top-0" : "top-[-2000px]"
         } duration-500 left-0 w-full h-screen bg-white z-50`}
       >
         <div className="flex justify-end m-4">
@@ -271,14 +269,14 @@ const Nav = () => {
         </div>
         <div className="h-full flex flex-col items-center justify-start mt-14">
           <div>
-            {UserImpl?.photoURL ? (
-              <img src={UserImpl?.photoURL} alt="profile" />
+            {userData?.photoUrl ? (
+              <img src={userData?.photoUrl} className="w-14 h-14 rounded-full mx-auto" alt="profile" />
             ) : (
               <CgProfile className="text-5xl mx-auto shadow-md shadow-primary rounded-full" />
             )}
             <div className="text-center my-2">
-              <p className="font-medium uppercase">{UserImpl?.displayName}</p>
-              <p className="text-xs text-neutral italic">{UserImpl?.email}</p>
+              <p className="font-medium uppercase">{userData?.name}</p>
+              <p className="text-xs text-neutral italic">{userData?.email}</p>
             </div>
             <ul className="flex text-white bg-neutral/80 rounded flex-col items-center justify-center uppercase text-sm">
               {Links}

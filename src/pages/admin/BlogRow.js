@@ -136,13 +136,13 @@ const BlogRow = ({ blog, refetch, index }) => {
             </div>
           </div>
           <div>
-            <p className="font-bold hover:underline">{blog?.title}</p>
+            <p className="font-bold hover:underline w-max">{blog?.title}</p>
             <div className="text-sm opacity-50">{blog?.date}</div>
           </div>
         </div>
       </td>
       <td>
-        <button className="px-2 border border-neutral rounded uppercase font-bold text-sm">
+        <button className="px-2 border w-max border-neutral rounded uppercase font-bold text-sm">
           {blog?.author?.name || "Muhammad Shafi"}
         </button>
       </td>

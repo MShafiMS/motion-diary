@@ -55,7 +55,7 @@ const Login = () => {
             {...register("email", {
               required: {
                 value: true,
-                message: "Email is require",
+                message: "Email is required",
               },
               pattern: {
                 value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
