@@ -5,13 +5,14 @@ const getUsers = async () => {
   return users;
 };
 
-const createUser = async (email, name) => {
+const createUser = async (email, name, photoUrl) => {
   const filter = { email: email };
   const options = { upsert: true };
   const updateDoc = {
     $set: {
       name: name,
       email: email,
+      photoUrl: photoUrl,
     },
   };
   const createdUser = await User.updateOne(filter, updateDoc, options);

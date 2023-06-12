@@ -18,8 +18,8 @@ const getUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const { email, name } = req.body;
-    const user = await userService.createUser(email, name);
+    const { email, name, photoUrl } = req.body;
+    const user = await userService.createUser(email, name, photoUrl);
     res.status(200).json({
       success: true,
       message: "Users created successfully!!",

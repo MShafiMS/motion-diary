@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import SocialLogin from "./Components/shared/SocialLogin";
 import userService from "./api/userService";
 
 const Login = () => {
@@ -37,7 +38,7 @@ const Login = () => {
     singInError = <p className="text-red-600">{error?.message}</p>;
   }
   return (
-    <div className="h-[70vh] flex flex-col items-center justify-center">
+    <div className="min-h-[80vh] flex flex-col items-center justify-center">
       <Head>
         <title>Login</title>
       </Head>
@@ -137,6 +138,8 @@ const Login = () => {
         >
           Login
         </button>
+        <p className="text-center">or</p>
+        <SocialLogin />
         <div className="mt-4">
           <p className="text-sm text-neutral font-medium">
             Don't have an account yet?{" "}

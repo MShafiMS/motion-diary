@@ -16,7 +16,7 @@ const useRole = () => {
         const { data } = await userService.get(
           `/user-role?email=${user?.email}`
         );
-        setRole(data?.data.role);
+        setRole(data?.data?.role);
         setRoleLoading(false);
         setUserName(data?.data.name);
         setUserData(data?.data);
