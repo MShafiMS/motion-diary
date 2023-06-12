@@ -143,7 +143,7 @@ const BlogRow = ({ blog, refetch, index }) => {
       </td>
       <td>
         <button className="px-2 border border-neutral rounded uppercase font-bold text-sm">
-          {blog?.author || "Muhammad Shafi"}
+          {blog?.author?.name || "Muhammad Shafi"}
         </button>
       </td>
       <td>

@@ -89,7 +89,7 @@ const User = () => {
       });
     };
 
-    const { name, email, role, _id, image } = user;
+    const { name, email, role, _id, photoUrl } = user;
     return (
       <tr className="border-b border-silver">
         <td className="text-center w-14 font-bold">{index + 1}</td>
@@ -97,8 +97,12 @@ const User = () => {
           <div className="flex items-center space-x-3">
             <div className="avatar">
               <div className="rounded-full w-12 h-12">
-                {image ? (
-                  <img src={image} alt="Profile" />
+                {photoUrl ? (
+                  <img
+                    src={photoUrl}
+                    className="h-12 w-12 rounded-full border border-silver"
+                    alt="Profile"
+                  />
                 ) : (
                   <div>
                     {name && (
@@ -138,8 +142,8 @@ const User = () => {
             ></div>
             <div className="fixed top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2 w-96 h-64 bg-neutral shadow-md shadow-primary  rounded-2xl text-white">
               <div className="my-4">
-                {user?.photoURL ? (
-                  <img src={user?.photoURL} alt="profile" />
+                {user?.photoUrl ? (
+                  <img src={user?.photoUrl} alt="profile" />
                 ) : (
                   <CgProfile className="text-5xl mx-auto shadow-md shadow-primary rounded-full" />
                 )}

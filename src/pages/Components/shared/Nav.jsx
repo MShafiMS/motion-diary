@@ -16,17 +16,13 @@ import Search from "./Search";
 
 const Nav = () => {
   const [UserImpl] = useAuthState(auth);
-  const [role, roleLoading, userName, userData] = useRole();
+  const [role, roleLoading, userData] = useRole();
   const [users, isLoading, refetch] = useUsers();
   const [nav, setNav] = useState(false);
   const [userNav, setUserNav] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-
-  const currentUser = users?.data.data.find(
-    (usr) => usr?._id === userData?._id
-  );
 
   const handleSendRequest = async () => {
     setLoading(true);
@@ -170,7 +166,7 @@ const Nav = () => {
                       </p>
                     </div>
                     <div className="mt-4 w-full">
-                      {!currentUser?.role && (
+                      {!role && (
                         <button
                           onClick={() => handleSendRequest()}
                           disabled={loading}
@@ -179,7 +175,7 @@ const Nav = () => {
                           {loading ? "loading..." : "Request to be a blogger"}
                         </button>
                       )}
-                      {currentUser?.role === "requester" && (
+                      {role === "requester" && (
                         <button
                           disabled
                           className="block text-center my-3 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/20 font-medium px-5  py-1 text-sm"
@@ -287,7 +283,7 @@ const Nav = () => {
             <ul className="flex text-white bg-neutral/80 rounded flex-col items-center justify-center uppercase text-sm">
               {Links}
             </ul>
-            {!currentUser?.role && (
+            {!role && (
               <button
                 onClick={() => handleSendRequest()}
                 disabled={loading}
@@ -296,7 +292,7 @@ const Nav = () => {
                 {loading ? "loading..." : "Request to be a blogger"}
               </button>
             )}
-            {currentUser?.role === "requester" && (
+            {role === "requester" && (
               <button
                 disabled
                 className="block text-center my-3 mx-auto w-fit uppercase border-2 rounded-lg bg-primary/20 font-medium px-5  py-1 text-sm"

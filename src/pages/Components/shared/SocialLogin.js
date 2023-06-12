@@ -28,14 +28,14 @@ const SocialLogin = () => {
     <Loader />;
   }
   return (
-    <div>
+    <div className="w-full">
       {error && <p className="error my-5">{error?.code}</p>}
       <button
         onClick={() => signInWithGoogle()}
         type="button"
-        className="text-2xl p-2 border border-silver shadow-md rounded-xl"
+        className="w-full py-2 border border-silver shadow-md rounded flex items-center justify-center gap-4"
       >
-        <FcGoogle />
+        <FcGoogle className="text-2xl" /> <p className="font-medium">Continue with Google</p>
       </button>
     </div>
   );

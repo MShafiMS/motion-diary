@@ -9,6 +9,7 @@ import {
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import SocialLogin from "./Components/shared/SocialLogin";
 import userService from "./api/userService";
 
 const register = () => {
@@ -50,7 +51,7 @@ const register = () => {
     );
   }
   return (
-    <div className="h-[80vh] flex flex-col items-center justify-center">
+    <div className="min-h-[80vh] my-8 flex flex-col items-center justify-center">
       <Head>
         <title>Register</title>
       </Head>
@@ -188,8 +189,14 @@ const register = () => {
           type="submit"
           className="w-72 bg-primary py-2 rounded-md uppercase text-white font-medium mt-8"
         >
-          Login
+          Register
         </button>
+        <div className="flex justify-center items-center gap-2 text-[#808080]">
+          <div className="h-[1px] w-7 bg-[#808080]"></div>
+          <p>or</p>
+          <div className="h-[1px] w-7 bg-[#808080]"></div>
+        </div>
+        <SocialLogin />
         <div className="mt-4">
           <p className="text-sm text-neutral font-medium">
             Already have an account?{" "}

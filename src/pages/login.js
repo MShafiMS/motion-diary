@@ -38,7 +38,7 @@ const Login = () => {
     singInError = <p className="text-red-600">{error?.message}</p>;
   }
   return (
-    <div className="min-h-[80vh] flex flex-col items-center justify-center">
+    <div className="min-h-[70vh] my-8 flex flex-col items-center justify-center">
       <Head>
         <title>Login</title>
       </Head>
@@ -138,7 +138,11 @@ const Login = () => {
         >
           Login
         </button>
-        <p className="text-center">or</p>
+        <div className="flex justify-center items-center gap-2 text-[#808080]">
+          <div className="h-[1px] w-7 bg-[#808080]"></div>
+          <p>or</p>
+          <div className="h-[1px] w-7 bg-[#808080]"></div>
+        </div>
         <SocialLogin />
         <div className="mt-4">
           <p className="text-sm text-neutral font-medium">

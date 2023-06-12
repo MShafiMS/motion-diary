@@ -1,4 +1,5 @@
 import { useBlogContext } from "@component/Hooks/BlogsContext";
+import useRole from "@component/Hooks/useAdmin";
 import auth from "@component/firebase.init";
 import Head from "next/head";
 import Link from "next/link";
@@ -15,6 +16,7 @@ import blogService from "../api/blogService";
 const BlogsView = () => {
   const { query } = useRouter();
   const [user, loading] = useAuthState(auth);
+  const [, , userData] = useRole();
   const blogId = query.id;
   const { blogs, isLoading, refetch } = useBlogContext();
   const blog = blogs?.data.data.find((s) => blogId === s._id);
@@ -129,9 +131,7 @@ const BlogsView = () => {
             comment: [
               ...blog?.comment,
               {
-                name: user?.displayName,
-                photoUrl: user?.photoURL,
-                email: user?.email,
+                ...userData,
                 comment: isComment,
               },
             ],
@@ -151,9 +151,7 @@ const BlogsView = () => {
           {
             comment: [
               {
-                name: user?.displayName,
-                photoUrl: user?.photoURL,
-                email: user?.email,
+                ...userData,
                 comment: isComment,
               },
             ],
@@ -176,7 +174,6 @@ const BlogsView = () => {
   if (isLoading) {
     return <Loader />;
   }
-  console.log(blog);
   return (
     <div className="lg:mt-16 mt-8 lg:mx-14 mx-6">
       <Head>
@@ -219,7 +216,7 @@ const BlogsView = () => {
                 blog?.author?.photoUrl ||
                 "https://schooloflanguages.sa.edu.au/wp-content/uploads/2017/11/placeholder-profile-sq-300x300.jpg"
               }
-              className="w-56 h-56 object-cover object-center mx-auto my-3"
+              className="w-28 h-28 object-cover object-center mx-auto my-3"
               alt=""
             />
             <div className="text-sm text-neutral tracking-tighter">
@@ -333,7 +330,10 @@ const BlogsView = () => {
             {user ? (
               <div className="flex items-start gap-2 border-b border-silver my-5 pb-5">
                 <img
-                  src="https://schooloflanguages.sa.edu.au/wp-content/uploads/2017/11/placeholder-profile-sq-300x300.jpg"
+                  src={
+                    userData?.photoUrl ||
+                    "https://schooloflanguages.sa.edu.au/wp-content/uploads/2017/11/placeholder-profile-sq-300x300.jpg"
+                  }
                   alt="profile"
                   className="w-16 h-16 object-cover object-center rounded-full"
                 />
@@ -386,7 +386,7 @@ const BlogsView = () => {
                   >
                     <img
                       src={
-                        com?.photoURL ||
+                        com?.photoUrl ||
                         "https://schooloflanguages.sa.edu.au/wp-content/uploads/2017/11/placeholder-profile-sq-300x300.jpg"
                       }
                       alt=""

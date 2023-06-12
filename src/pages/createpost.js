@@ -94,7 +94,7 @@ const createpost = () => {
           img: res?.data?.data.url,
           description: description,
           blog: value,
-          author: user?.displayName,
+          author: userData,
           email: user?.email,
           date: date,
           like: [],
@@ -376,5 +376,3 @@ const createpost = () => {
 };
 
 export default createpost;
-
-
