@@ -2,7 +2,9 @@ import useRole from "@component/Hooks/useAdmin";
 import auth from "@component/firebase.init";
 import axios from "axios";
 import { signOut } from "firebase/auth";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { AiOutlineCamera } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
@@ -20,6 +22,8 @@ const profile = () => {
     reset,
   } = useForm();
   const [, , userData, refetch] = useRole();
+  const [user] = useAuthState(auth);
+  const router = useRouter();
   const [edit, setEdit] = useState(false);
   const [hover, setHover] = useState(false);
   const [updating, setUpdating] = useState(false);
@@ -77,6 +81,11 @@ const profile = () => {
       reader.readAsDataURL(file);
     }
   }, [image]);
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, [user]);
   return (
     <div className="min-h-[50vh] flex items-center justify-center">
       {edit ? (
