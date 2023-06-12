@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import Swal from "sweetalert2";
-import primaryAxios from "../api/primaryAxios";
+import blogService from "../api/blogService";
 
 const BlogRow = ({ blog, refetch, index }) => {
   const [loading, setLoading] = useState(false);
@@ -19,7 +19,7 @@ const BlogRow = ({ blog, refetch, index }) => {
       if (willDelete.isConfirmed) {
         setLoading(true);
         (async () => {
-          const { data } = await primaryAxios.put(`/blog-approve?id=${id}`, {
+          const { data } = await blogService.put(`/approve-blog?id=${id}`, {
             approve: "approve",
           });
           if (data.success) {
@@ -58,7 +58,7 @@ const BlogRow = ({ blog, refetch, index }) => {
       if (willDelete.isConfirmed) {
         setLoading(true);
         (async () => {
-          const { data } = await primaryAxios.put(`/blog-approve?id=${id}`, {
+          const { data } = await blogService.put(`/approve-blog?id=${id}`, {
             approve: "",
           });
           if (data.success) {
@@ -96,8 +96,8 @@ const BlogRow = ({ blog, refetch, index }) => {
     }).then((willDelete) => {
       if (willDelete.isConfirmed) {
         (async () => {
-          const { data } = await primaryAxios.delete(`/blog/${id}`);
-          if (data.deletedCount > 0) {
+          const { data } = await blogService.delete(`/${id}`);
+          if (data.success) {
             const Toast = Swal.mixin({
               toast: true,
               position: "top-right",
@@ -167,7 +167,7 @@ const BlogRow = ({ blog, refetch, index }) => {
             onClick={() => handleApprove(blog?._id)}
             className="text-neutral border border-neutral hover:bg-primary duration-150 bg-[#56be79] px-2 text-center py-1 rounded uppercase font-bold text-sm"
           >
-            {loading ? <FaSpinner className="animate-spin" /> : <>Approved</>}
+            {loading ? <FaSpinner className="animate-spin" /> : <>Approve</>}
           </button>
         )}
       </td>

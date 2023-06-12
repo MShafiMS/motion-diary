@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const primaryAxios = axios.create({
-  baseURL: "https://motion-diary-server.vercel.app/",
+  baseURL: "http://localhost:5001/",
 });
 
 export default primaryAxios;

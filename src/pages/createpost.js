@@ -14,7 +14,7 @@ import { BsCloudUploadFill } from "react-icons/bs";
 import { useQuill } from "react-quilljs";
 import Swal from "sweetalert2";
 import Loader from "./Components/shared/Loader/Loader";
-import primaryAxios from "./api/primaryAxios";
+import blogService from "./api/blogService";
 const createpost = () => {
   const { quill, quillRef } = useQuill();
   const { blogs, isLoading, refetch } = useBlogContext();
@@ -99,7 +99,7 @@ const createpost = () => {
           like: [],
           comment: [],
         };
-        await primaryAxios.post(`/blogs`, addBlog);
+        await blogService.post("/post-blog", addBlog);
       }
     });
     const Toast = Swal.mixin({

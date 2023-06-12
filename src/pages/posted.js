@@ -13,7 +13,7 @@ import Loader from "./Components/shared/Loader/Loader";
 const posted = () => {
   const { blogs, isLoading, refetch } = useBlogContext();
   const [user, loading] = useAuthState(auth);
-  const postedBlogs = blogs?.data?.filter(
+  const postedBlogs = blogs?.data.data?.filter(
     (blog) => blog?.email === user?.email
   );
   const router = useRouter();

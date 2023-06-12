@@ -1,7 +1,7 @@
 import useRole from "@component/Hooks/useAdmin";
 import useUsers from "@component/Hooks/useUsers";
 import auth from "@component/firebase.init";
-import primaryAxios from "@component/pages/api/primaryAxios";
+import userService from "@component/pages/api/userService";
 import { signOut } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -24,17 +24,16 @@ const Nav = () => {
 
   const router = useRouter();
 
-  const currentUser = users?.data?.find((usr) => usr?._id === userData?._id);
+  const currentUser = users?.data.data.find(
+    (usr) => usr?._id === userData?._id
+  );
 
   const handleSendRequest = async () => {
     setLoading(true);
     (async () => {
-      const { data } = await primaryAxios.put(
-        `/user-role?id=${userData?._id}`,
-        {
-          role: "requester",
-        }
-      );
+      const { data } = await userService.put(`/user-role?id=${userData?._id}`, {
+        role: "requester",
+      });
       if (data.success) {
         refetch();
         setLoading(false);

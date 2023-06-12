@@ -34,7 +34,7 @@ const Banner = () => {
         modules={[Navigation, Pagination]}
         className="mySwiper"
       >
-        {blogs?.data
+        {blogs?.data.data
           .slice()
           .reverse()
           .slice(0, 5)

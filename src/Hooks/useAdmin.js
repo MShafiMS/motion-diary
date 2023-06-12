@@ -1,5 +1,5 @@
 import auth from "@component/firebase.init";
-import primaryAxios from "@component/pages/api/primaryAxios";
+import userService from "@component/pages/api/userService";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -13,13 +13,13 @@ const useRole = () => {
   useEffect(() => {
     if (user?.email) {
       (async () => {
-        const { data } = await primaryAxios.get(
+        const { data } = await userService.get(
           `/user-role?email=${user?.email}`
         );
-        setRole(data?.role);
+        setRole(data?.data.role);
         setRoleLoading(false);
-        setUserName(data?.name);
-        setUserData(data);
+        setUserName(data?.data.name);
+        setUserData(data?.data);
       })();
     }
   }, [user]);

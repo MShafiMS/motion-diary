@@ -10,14 +10,14 @@ import { AiFillLike } from "react-icons/ai";
 import { MdFavorite } from "react-icons/md";
 import { RiLoader4Fill } from "react-icons/ri";
 import Loader from "../Components/shared/Loader/Loader";
-import primaryAxios from "../api/primaryAxios";
+import blogService from "../api/blogService";
 
 const BlogsView = () => {
   const { query } = useRouter();
   const [user, loading] = useAuthState(auth);
   const blogId = query.id;
   const { blogs, isLoading, refetch } = useBlogContext();
-  const blog = blogs?.data.find((s) => blogId === s._id);
+  const blog = blogs?.data.data.find((s) => blogId === s._id);
   const [isFavoriteLoading, setIsFavoriteLoading] = useState(false);
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [isCommentLoading, setIsCommentLoading] = useState(false);
@@ -33,7 +33,7 @@ const BlogsView = () => {
     refetch();
     if (blog?.like) {
       (async () => {
-        const { data } = await primaryAxios.put(`/blog-likes?id=${id}`, {
+        const { data } = await blogService.put(`/blog-likes?id=${id}`, {
           like: [...blog?.like, { email: user?.email }],
         });
         if (data.success) {
@@ -43,7 +43,7 @@ const BlogsView = () => {
       })();
     } else {
       (async () => {
-        const { data } = await primaryAxios.put(`/blog-likes?id=${id}`, {
+        const { data } = await blogService.put(`/blog-likes?id=${id}`, {
           like: [{ email: user?.email }],
         });
         if (data.success) {
@@ -63,7 +63,7 @@ const BlogsView = () => {
       totalLikes?.splice(index, 1);
     }
     (async () => {
-      const { data } = await primaryAxios.put(`/blog-likes?id=${id}`, {
+      const { data } = await blogService.put(`/blog-likes?id=${id}`, {
         like: totalLikes,
       });
       if (data.success) {
@@ -78,7 +78,7 @@ const BlogsView = () => {
     refetch();
     if (blog?.favorite) {
       (async () => {
-        const { data } = await primaryAxios.put(`/blog-favorite?id=${id}`, {
+        const { data } = await blogService.put(`/blog-favorite?id=${id}`, {
           favorite: [...blog?.favorite, { email: user?.email }],
         });
         if (data.success) {
@@ -88,7 +88,7 @@ const BlogsView = () => {
       })();
     } else {
       (async () => {
-        const { data } = await primaryAxios.put(`/blog-favorite?id=${id}`, {
+        const { data } = await blogService.put(`/blog-favorite?id=${id}`, {
           favorite: [{ email: user?.email }],
         });
         if (data.success) {
@@ -108,7 +108,7 @@ const BlogsView = () => {
       totalFavorite?.splice(index, 1);
     }
     (async () => {
-      const { data } = await primaryAxios.put(`/blog-favorite?id=${id}`, {
+      const { data } = await blogService.put(`/blog-favorite?id=${id}`, {
         favorite: totalFavorite,
       });
       if (data.success) {
@@ -123,7 +123,7 @@ const BlogsView = () => {
     refetch();
     if (blog?.comment) {
       (async () => {
-        const { data } = await primaryAxios.put(
+        const { data } = await blogService.put(
           `/blog-comments?id=${blog?._id}`,
           {
             comment: [
@@ -146,7 +146,7 @@ const BlogsView = () => {
       })();
     } else {
       (async () => {
-        const { data } = await primaryAxios.put(
+        const { data } = await blogService.put(
           `/blog-comments?id=${blog?._id}`,
           {
             comment: [

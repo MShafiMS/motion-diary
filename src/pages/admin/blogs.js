@@ -19,7 +19,7 @@ const ManageBlogs = () => {
             </tr>
           </thead>
           <tbody>
-            {blogs?.data?.map((blog, index) => (
+            {blogs?.data.data?.map((blog, index) => (
               <BlogRow
                 key={blog._id}
                 index={index}

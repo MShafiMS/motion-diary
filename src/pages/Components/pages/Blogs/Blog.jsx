@@ -1,4 +1,4 @@
-import primaryAxios from "@component/pages/api/primaryAxios";
+import blogService from "@component/pages/api/blogService";
 import Link from "next/link";
 import Swal from "sweetalert2";
 
@@ -15,8 +15,8 @@ const Blog = ({ blog, action, refetch }) => {
     }).then((willDelete) => {
       if (willDelete.isConfirmed) {
         (async () => {
-          const { data } = await primaryAxios.delete(`/blog/${id}`);
-          if (data.deletedCount > 0) {
+          const { data } = await blogService.delete(`/${id}`);
+          if (data.success) {
             const Toast = Swal.mixin({
               toast: true,
               position: "top-right",

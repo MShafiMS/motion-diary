@@ -9,8 +9,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { BsCloudUploadFill } from "react-icons/bs";
 import { useQuill } from "react-quilljs";
+import Swal from "sweetalert2";
 import Loader from "../Components/shared/Loader/Loader";
-import primaryAxios from "../api/primaryAxios";
+import blogService from "../api/blogService";
 import CreatePost from "../createpost";
 
 const EditBlog = () => {
@@ -28,7 +29,9 @@ const EditBlog = () => {
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
   const { blogs, isLoading, refetch } = useBlogContext();
-  const blogData = blogs?.data?.find((blog) => blog?._id === router?.query?.id);
+  const blogData = blogs?.data.data?.find(
+    (blog) => blog?._id === router?.query?.id
+  );
 
   const [description, setDescription] = useState(null);
   const [value, setValue] = useState(null);
@@ -71,14 +74,14 @@ const EditBlog = () => {
     ", " +
     new Date().getFullYear();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     setUpdating(true);
     const image = data.image[0];
     const formData = new FormData();
     formData.append("image", image);
     const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
     if (image) {
-      axios.post(url, formData).then((res) => {
+      await axios.post(url, formData).then((res) => {
         if (res?.data?.success) {
           const addBlog = {
             title: data?.title,
@@ -88,8 +91,33 @@ const EditBlog = () => {
             blog: value,
             updated: date,
           };
-          primaryAxios.put(`/edit-blog?id=${blogData?._id}`, addBlog);
-          refetch();
+          (async () => {
+            const { data } = await blogService.put(
+              `/edit-blog?id=${blogData?._id}`,
+              addBlog
+            );
+            if (data.success) {
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top-right",
+                iconColor: "green",
+                customClass: {
+                  popup: "colored-toast",
+                },
+                showConfirmButton: false,
+                timer: 1000,
+                timerProgressBar: true,
+              });
+              await Toast.fire({
+                icon: "success",
+                title: "updated",
+              });
+              refetch();
+              reset();
+              setUpdating(false);
+              router.push("/posted");
+            }
+          })();
         }
       });
     } else {
@@ -101,15 +129,37 @@ const EditBlog = () => {
         blog: value,
         updated: date,
       };
-      primaryAxios.put(`/edit-blog?id=${blogData?._id}`, addBlog);
-      refetch();
+      (async () => {
+        const { data } = await blogService.put(
+          `/edit-blog?id=${blogData?._id}`,
+          addBlog
+        );
+        if (data.success) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-right",
+            iconColor: "green",
+            customClass: {
+              popup: "colored-toast",
+            },
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          await Toast.fire({
+            icon: "success",
+            title: "updated",
+          });
+          refetch();
+          reset();
+          setUpdating(false);
+          router.push("/posted");
+        }
+      })();
     }
-    reset();
-    setUpdating(false);
-    router.push("/posted");
   };
 
-  if (loading || isLoading || updating) {
+  if (loading || isLoading) {
     return <Loader />;
   }
   if (!user && !loading) {
@@ -334,6 +384,13 @@ const EditBlog = () => {
       <div className="hidden">
         <CreatePost />
       </div>
+      {updating && (
+        <div className="w-screen h-screen bg-white/40 fixed top-0 left-0 z-10 flex justify-center items-center">
+          <p className="text-center text-4xl text-primary animate-bounce">
+            Updating...
+          </p>
+        </div>
+      )}
     </div>
   );
 };

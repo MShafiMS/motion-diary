@@ -7,7 +7,7 @@ import { IoMdClose } from "react-icons/io";
 const Search = () => {
   const [search, setSearch] = useState("");
   const { blogs, isLoading, refetch } = useBlogContext();
-  const searched = blogs?.data?.filter((s) =>
+  const searched = blogs?.data.data?.filter((s) =>
     s.title.toLowerCase().includes(search)
   );
   return (

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { FaSpinner } from "react-icons/fa";
 import Swal from "sweetalert2";
-import primaryAxios from "../api/primaryAxios";
+import userService from "../api/userService";
 import AdminLayout from "./layout";
 
 const User = () => {
@@ -17,7 +17,7 @@ const User = () => {
     const handleMakeAdmin = (id) => {
       setLoading(true);
       (async () => {
-        const { data } = await primaryAxios.put(`/user-role?id=${id}`, {
+        const { data } = await userService.put(`/user-role?id=${id}`, {
           role: "admin",
         });
         if (data.success) {
@@ -30,7 +30,7 @@ const User = () => {
     const handleMakeAuthor = async (id) => {
       setLoading(true);
       (async () => {
-        const { data } = await primaryAxios.put(`/user-role?id=${id}`, {
+        const { data } = await userService.put(`/user-role?id=${id}`, {
           role: "author",
         });
         if (data.success) {
@@ -43,7 +43,7 @@ const User = () => {
     const handleDeleteRole = async (id) => {
       setLoading(true);
       (async () => {
-        const { data } = await primaryAxios.put(`/user-role?id=${id}`, {
+        const { data } = await userService.put(`/user-role?id=${id}`, {
           role: "",
         });
         if (data.success) {
@@ -65,7 +65,7 @@ const User = () => {
       }).then((willDelete) => {
         if (willDelete.isConfirmed) {
           (async () => {
-            const { data } = await primaryAxios.delete(`/user/${id}`);
+            const { data } = await userService.delete(`/${id}`);
             if (data.deletedCount > 0) {
               const Toast = Swal.mixin({
                 toast: true,
@@ -209,7 +209,7 @@ const User = () => {
                 </>
               ) : (
                 <>
-                  {!role ? (
+                  {!role || role === "requester" ? (
                     <div className="flex gap-3 my-3 items-center justify-center">
                       <button
                         onClick={() => setConfirmModal("admin")}
@@ -276,7 +276,7 @@ const User = () => {
             </tr>
           </thead>
           <tbody>
-            {users?.data?.map((user, index) => (
+            {users?.data.data.map((user, index) => (
               <UserRow
                 key={user._id}
                 index={index}

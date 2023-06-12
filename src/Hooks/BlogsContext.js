@@ -1,4 +1,4 @@
-import primaryAxios from "@component/pages/api/primaryAxios";
+import blogService from "@component/pages/api/blogService";
 import { createContext, useContext } from "react";
 import { useQuery } from "react-query";
 
@@ -13,7 +13,7 @@ export const BlogsProvider = ({ children }) => {
     data: blogs,
     isLoading,
     refetch,
-  } = useQuery(["blogsss"], async () => await primaryAxios.get(`/blogs`));
+  } = useQuery(["blogsss"], async () => await blogService.get(`/`));
   return (
     <BlogContext.Provider value={{ blogs, isLoading, refetch }}>
       {children}

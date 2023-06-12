@@ -1,4 +1,4 @@
-import primaryAxios from "@component/pages/api/primaryAxios";
+import userService from "@component/pages/api/userService";
 import { useQuery } from "react-query";
 
 const useUsers = () => {
@@ -6,7 +6,7 @@ const useUsers = () => {
     data: users,
     isLoading,
     refetch,
-  } = useQuery(["users"], () => primaryAxios.get(`/users`));
+  } = useQuery(["users"], () => userService.get("/"));
   return [users, isLoading, refetch];
 };
 

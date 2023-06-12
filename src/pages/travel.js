@@ -13,7 +13,7 @@ const travel = () => {
         Travel Blogs
       </h1>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {blogs?.data.map((blog, index) => (
+        {blogs?.data.data.map((blog, index) => (
           <>
             {blog?.category === "Travel" && (
               <div key={index}>

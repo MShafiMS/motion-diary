@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import primaryAxios from "./api/primaryAxios";
+import userService from "./api/userService";
 
 const Login = () => {
   const [isShowEye, setIsShowEye] = useState(false);
@@ -25,7 +25,7 @@ const Login = () => {
   };
   useEffect(() => {
     if (user) {
-      primaryAxios.put(`/users`, {
+      userService.put(`/create-user`, {
         name: user?.user?.displayName,
         email: user?.user?.email,
       });

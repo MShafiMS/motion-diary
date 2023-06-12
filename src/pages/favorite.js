@@ -17,7 +17,7 @@ const favorite = () => {
         Favorite Blogs
       </h1>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {blogs?.data.map((blog, index) => (
+        {blogs?.data.data.map((blog, index) => (
           <>
             {blog?.favorite?.find((l) => l.email === user?.email) && (
               <div key={index}>
