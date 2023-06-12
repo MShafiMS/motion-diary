@@ -8,7 +8,7 @@ const Search = () => {
   const [search, setSearch] = useState("");
   const { blogs, isLoading, refetch } = useBlogContext();
   const searched = blogs?.data.data?.filter((s) =>
-    s.title.toLowerCase().includes(search)
+    s.title?.toLowerCase().includes(search)
   );
   return (
     <div className="relative">

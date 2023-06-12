@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const userService = axios.create({
-  baseURL: "http://localhost:5000/api/v2/users/",
+  baseURL: "https://motion-diary-server.vercel.app/api/v2/users/",
 });
 
 export default userService;

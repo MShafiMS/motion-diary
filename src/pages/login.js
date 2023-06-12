@@ -125,7 +125,7 @@ const Login = () => {
             )}
           </p>
           <div className="w-72 flex justify-end font-medium mt-1">
-            <Link href="reset-password" className="text-sm hover:underline">
+            <Link href="reset" className="text-sm hover:underline">
               Forgot Password?
             </Link>
           </div>
