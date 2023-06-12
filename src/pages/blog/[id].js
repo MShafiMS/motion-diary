@@ -176,7 +176,7 @@ const BlogsView = () => {
   if (isLoading) {
     return <Loader />;
   }
-
+  console.log(blog);
   return (
     <div className="lg:mt-16 mt-8 lg:mx-14 mx-6">
       <Head>
