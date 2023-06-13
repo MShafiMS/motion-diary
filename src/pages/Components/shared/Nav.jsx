@@ -1,5 +1,4 @@
 import useRole from "@component/Hooks/useAdmin";
-import useUsers from "@component/Hooks/useUsers";
 import auth from "@component/firebase.init";
 import userService from "@component/pages/api/userService";
 import { signOut } from "firebase/auth";
@@ -12,12 +11,12 @@ import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { RiCloseLine } from "react-icons/ri";
 import Logo from "../images/Logo";
+import Loader from "./Loader/Loader";
 import Search from "./Search";
 
 const Nav = () => {
   const [UserImpl] = useAuthState(auth);
-  const [role, roleLoading, userData] = useRole();
-  const [users, isLoading, refetch] = useUsers();
+  const [role, roleLoading, userData, refetch] = useRole();
   const [nav, setNav] = useState(false);
   const [userNav, setUserNav] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -51,7 +50,12 @@ const Nav = () => {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
   }, []);
-
+  useEffect(() => {
+    refetch();
+  });
+  if (roleLoading) {
+    return <Loader />;
+  }
   const Links = (
     <>
       <li className="w-full">
@@ -270,7 +274,11 @@ const Nav = () => {
         <div className="h-full flex flex-col items-center justify-start mt-14">
           <div>
             {userData?.photoUrl ? (
-              <img src={userData?.photoUrl} className="w-14 h-14 object-cover object-center rounded-full mx-auto" alt="profile" />
+              <img
+                src={userData?.photoUrl}
+                className="w-14 h-14 object-cover object-center rounded-full mx-auto"
+                alt="profile"
+              />
             ) : (
               <CgProfile className="text-5xl mx-auto shadow-md shadow-primary rounded-full" />
             )}

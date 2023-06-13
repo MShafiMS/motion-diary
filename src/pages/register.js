@@ -2,18 +2,20 @@ import auth from "@component/firebase.init";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   useCreateUserWithEmailAndPassword,
   useUpdateProfile,
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import Loader from "./Components/shared/Loader/Loader";
 import SocialLogin from "./Components/shared/SocialLogin";
 import userService from "./api/userService";
 
 const register = () => {
   const [isShowEye, setIsShowEye] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
   const {
@@ -21,34 +23,34 @@ const register = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const [name, setName] = useState("");
   const [createUserWithEmailAndPassword, user, error] =
     useCreateUserWithEmailAndPassword(auth);
 
   const [updateProfile, updating, upError] = useUpdateProfile(auth);
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
     const name = data?.firstname + " " + data?.lastname;
-    setName(name);
     await createUserWithEmailAndPassword(data.email, data.password);
-    await updateProfile({ displayName: name });
+    await updateProfile({ displayName: name }).then(async () => {
+      await userService.put(`/create-user`, {
+        name: name,
+        email: data.email,
+      });
+      setIsLoading(false);
+      router.push("/");
+    });
   };
 
   let singInError;
-  useEffect(() => {
-    if (user) {
-      userService.put(`/create-user`, {
-        name: name,
-        email: user?.user?.email,
-      });
-      router.push("/");
-    }
-  }, [user, name]);
 
   if (error || upError) {
     singInError = (
       <p className="text-red-600">{error?.message || upError?.message}</p>
     );
+  }
+  if (isLoading || updating) {
+    return <Loader />;
   }
   return (
     <div className="min-h-[80vh] my-8 flex flex-col items-center justify-center">

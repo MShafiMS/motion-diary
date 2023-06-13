@@ -33,7 +33,7 @@ const SocialLogin = () => {
     }
   }, [user]);
   if (loading) {
-    <Loader />;
+    return <Loader />;
   }
   return (
     <div className="w-full">

@@ -10,7 +10,7 @@ const useRole = () => {
   const [userData, setUserData] = useState("");
 
   const fetchRoleData = async () => {
-    if (user?.email) {
+    if (user) {
       try {
         const { data } = await userService.get(
           `/user-role?email=${user?.email}`
