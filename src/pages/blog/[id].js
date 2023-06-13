@@ -178,14 +178,8 @@ const BlogsView = () => {
     <div className="lg:mt-16 mt-8 lg:mx-14 mx-6">
       <Head>
         <title>{blog?.title}</title>
-        <meta
-          property="og:title"
-          content={blog && blog.title ? blog.title.toString() : ""}
-        />
-        <meta
-          property="og:image"
-          content={blog && blog.img ? blog.img.toString() : ""}
-        />
+        <meta property="og:title" content={blog?.title} />
+        <meta property="og:image" content={blog?.img} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="627" />
       </Head>
