@@ -177,11 +177,37 @@ const BlogsView = () => {
   return (
     <div className="lg:mt-16 mt-8 lg:mx-14 mx-6">
       <Head>
+        {/* <!-- HTML Meta Tags --> */}
         <title>{blog?.title}</title>
+        <meta
+          name="description"
+          content={blog?.description?.slice(0, 30) + "..."}
+        />
+
+        <meta
+          property="og:url"
+          content={`https://motion-diary.vercel.app/blog/${blog?._id}`}
+        />
+        <meta property="og:type" content="website" />
         <meta property="og:title" content={blog?.title} />
+        <meta
+          property="og:description"
+          content={blog?.description?.slice(0, 30) + "..."}
+        />
         <meta property="og:image" content={blog?.img} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="627" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="motion-diary.vercel.app" />
+        <meta
+          property="twitter:url"
+          content={`https://motion-diary.vercel.app/blog/${blog?._id}`}
+        />
+        <meta name="twitter:title" content={blog?.title} />
+        <meta
+          name="twitter:description"
+          content={blog?.description?.slice(0, 50) + "..."}
+        />
+        <meta name="twitter:image" content={blog?.img} />
       </Head>
       <div className="text-center">
         <p className="uppercase text-sm">
