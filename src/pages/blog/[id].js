@@ -1,6 +1,7 @@
 import { useBlogContext } from "@component/Hooks/BlogsContext";
 import useRole from "@component/Hooks/useAdmin";
 import auth from "@component/firebase.init";
+import { DefaultSeo } from "next-seo";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -181,7 +182,7 @@ const BlogsView = () => {
         <title>{blog?.title}</title>
         <meta
           name="description"
-          content={blog?.description?.slice(0, 30) + "..."}
+          content={blog?.description?.slice(0, 50) + "..."}
         />
 
         <meta
@@ -192,7 +193,7 @@ const BlogsView = () => {
         <meta property="og:title" content={blog?.title} />
         <meta
           property="og:description"
-          content={blog?.description?.slice(0, 30) + "..."}
+          content={blog?.description?.slice(0, 50) + "..."}
         />
         <meta property="og:image" content={blog?.img} />
 
@@ -209,6 +210,22 @@ const BlogsView = () => {
         />
         <meta name="twitter:image" content={blog?.img} />
       </Head>
+      <DefaultSeo
+        title={blog?.title}
+        description={blog?.description?.slice(0, 50) + "..."}
+        openGraph={{
+          type: "website",
+          title: blog?.title,
+          description: blog?.description?.slice(0, 50) + "...",
+          images: [
+            {
+              url: blog?.img,
+              alt: blog?.title,
+            },
+          ],
+        }}
+      />
+
       <div className="text-center">
         <p className="uppercase text-sm">
           <sup className="italic">in</sup>{" "}
