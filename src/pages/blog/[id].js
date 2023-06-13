@@ -180,12 +180,11 @@ const BlogsView = () => {
         <title>{blog?.title}</title>
         <meta
           property="og:title"
-          content="Unforgettable Adventures with Friends: A Day of Adventure and Friendship
-"
+          content={blog && blog.title ? blog.title.toString() : ""}
         />
         <meta
           property="og:image"
-          content="https://i.ibb.co/LCQVPhf/1686403008137-1686403000660-1.jpg"
+          content={blog && blog.img ? blog.img.toString() : ""}
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="627" />
