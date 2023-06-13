@@ -17,6 +17,7 @@ const Blog = ({ blog, action, refetch }) => {
         (async () => {
           const { data } = await blogService.delete(`/${id}`);
           if (data.success) {
+            refetch();
             const Toast = Swal.mixin({
               toast: true,
               position: "top-right",
@@ -32,7 +33,6 @@ const Blog = ({ blog, action, refetch }) => {
               icon: "success",
               title: "deleted",
             });
-            refetch();
           }
         })();
       }

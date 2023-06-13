@@ -23,6 +23,8 @@ const BlogRow = ({ blog, refetch, index }) => {
             approve: "approve",
           });
           if (data.success) {
+            refetch();
+            setLoading(false);
             const Toast = Swal.mixin({
               toast: true,
               position: "top-right",
@@ -38,8 +40,6 @@ const BlogRow = ({ blog, refetch, index }) => {
               icon: "success",
               title: "Approved",
             });
-            refetch();
-            setLoading(false);
           }
         })();
       }
@@ -62,6 +62,8 @@ const BlogRow = ({ blog, refetch, index }) => {
             approve: "",
           });
           if (data.success) {
+            refetch();
+            setLoading(false);
             const Toast = Swal.mixin({
               toast: true,
               position: "top-right",
@@ -77,8 +79,6 @@ const BlogRow = ({ blog, refetch, index }) => {
               icon: "success",
               title: "Removed",
             });
-            refetch();
-            setLoading(false);
           }
         })();
       }
@@ -98,6 +98,7 @@ const BlogRow = ({ blog, refetch, index }) => {
         (async () => {
           const { data } = await blogService.delete(`/${id}`);
           if (data.success) {
+            refetch();
             const Toast = Swal.mixin({
               toast: true,
               position: "top-right",
@@ -113,7 +114,6 @@ const BlogRow = ({ blog, refetch, index }) => {
               icon: "success",
               title: "deleted",
             });
-            refetch();
           }
         })();
       }

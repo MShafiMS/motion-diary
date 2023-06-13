@@ -151,7 +151,7 @@ const Nav = () => {
                     {userData?.photoUrl ? (
                       <img
                         src={userData?.photoUrl}
-                        className="mx-auto w-20 h-20 rounded-full"
+                        className="mx-auto w-20 object-cover object-center h-20 rounded-full"
                         alt="profile"
                       />
                     ) : (
@@ -270,7 +270,7 @@ const Nav = () => {
         <div className="h-full flex flex-col items-center justify-start mt-14">
           <div>
             {userData?.photoUrl ? (
-              <img src={userData?.photoUrl} className="w-14 h-14 rounded-full mx-auto" alt="profile" />
+              <img src={userData?.photoUrl} className="w-14 h-14 object-cover object-center rounded-full mx-auto" alt="profile" />
             ) : (
               <CgProfile className="text-5xl mx-auto shadow-md shadow-primary rounded-full" />
             )}

@@ -30,7 +30,7 @@ const Login = () => {
         name: user?.user?.displayName,
         email: user?.user?.email,
       });
-      router.push("/");
+      router.replace("/");
     }
   }, [user]);
 

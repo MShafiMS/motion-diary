@@ -119,7 +119,7 @@ const profile = () => {
                   >
                     <img
                       src={thumbnail}
-                      className="mx-auto w-20 h-20 rounded-full"
+                      className="mx-auto object-cover object-center w-20 h-20 rounded-full"
                       alt="profile"
                     />
                     {hover && (
@@ -138,7 +138,7 @@ const profile = () => {
                       >
                         <img
                           src={userData?.photoUrl}
-                          className="mx-auto w-20 h-20 rounded-full"
+                          className="mx-auto object-cover object-center w-20 h-20 rounded-full"
                           alt="profile"
                         />
                         {hover && (
@@ -197,7 +197,7 @@ const profile = () => {
           {userData?.photoUrl ? (
             <img
               src={userData?.photoUrl}
-              className="mx-auto w-20 h-20 rounded-full"
+              className="mx-auto object-cover object-center w-20 h-20 rounded-full"
               alt="profile"
             />
           ) : (

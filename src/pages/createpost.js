@@ -47,6 +47,7 @@ const createpost = () => {
     new Date().getFullYear();
   const router = useRouter();
   const image = watch("image");
+  const category = watch("category");
 
   // Insert Image(selected by user) to quill
   const insertToEditor = (url) => {
@@ -81,47 +82,55 @@ const createpost = () => {
   };
 
   const onSubmit = async (data) => {
-    setPosting(true);
-    const image = data.image[0];
-    const formData = new FormData();
-    formData.append("image", image);
-    const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
-    await axios.post(url, formData).then(async (res) => {
-      if (res?.data?.success) {
-        const addBlog = {
-          title: data?.title,
-          category: data?.category,
-          img: res?.data?.data.url,
-          description: description,
-          blog: value,
-          author: userData,
-          email: user?.email,
-          date: date,
-          like: [],
-          comment: [],
-        };
-        await blogService.post("/post-blog", addBlog);
-      }
-    });
-    const Toast = Swal.mixin({
-      toast: true,
-      position: "top-right",
-      iconColor: "green",
-      customClass: {
-        popup: "colored-toast",
-      },
-      showConfirmButton: false,
-      timer: 1000,
-      timerProgressBar: true,
-    });
-    await Toast.fire({
-      icon: "success",
-      title: "Posted",
-    });
-    setPosting(false);
-    reset();
-    refetch();
-    router.push("/posted");
+    if (!image || !category || description?.length <= 1) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "All feild required!",
+      });
+    } else {
+      setPosting(true);
+      const image = data.image[0];
+      const formData = new FormData();
+      formData.append("image", image);
+      const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
+      await axios.post(url, formData).then(async (res) => {
+        if (res?.data?.success) {
+          const addBlog = {
+            title: data?.title,
+            category: data?.category,
+            img: res?.data?.data.url,
+            description: description,
+            blog: value,
+            author: userData,
+            email: user?.email,
+            date: date,
+            like: [],
+            comment: [],
+          };
+          await blogService.post("/post-blog", addBlog);
+        }
+      });
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-right",
+        iconColor: "green",
+        customClass: {
+          popup: "colored-toast",
+        },
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+      });
+      await Toast.fire({
+        icon: "success",
+        title: "Posted",
+      });
+      setPosting(false);
+      reset();
+      refetch();
+      router.push("/posted");
+    }
   };
 
   useEffect(() => {
@@ -161,7 +170,6 @@ const createpost = () => {
     signOut(auth);
     router.push("/login");
   }
-
   return (
     <div className="relative lg:mx-8 mx-4 text-neutral">
       <Head>
@@ -175,10 +183,21 @@ const createpost = () => {
           <p className="uppercase font-medium bg-silver px-1">Title</p>
           <input
             type="text"
-            {...register("title")}
-            required
-            className="border border-[#808080]/40 p-3 w-full text-lg outline-none focus:outline-none font-semibold"
-            placeholder="Blog Title"
+            {...register("title", {
+              required: {
+                value: true,
+                message: "Title is required",
+              },
+            })}
+            className={`border border-[#808080]/40 p-3 w-full text-lg outline-none focus:outline-none font-semibold ${
+              errors?.title?.type === "required" &&
+              "placeholder:text-[#e00000]/50"
+            }`}
+            placeholder={
+              errors?.title?.type === "required"
+                ? errors.title.message
+                : "Blog Title"
+            }
           />
           <div
             className={`${
