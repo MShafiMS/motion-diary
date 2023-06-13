@@ -178,8 +178,15 @@ const BlogsView = () => {
     <div className="lg:mt-16 mt-8 lg:mx-14 mx-6">
       <Head>
         <title>{blog?.title}</title>
-        <meta property="og:title" content={blog?.title} />
-        <meta property="og:image" content={blog?.img} />
+        <meta
+          property="og:title"
+          content="Unforgettable Adventures with Friends: A Day of Adventure and Friendship
+"
+        />
+        <meta
+          property="og:image"
+          content="https://i.ibb.co/LCQVPhf/1686403008137-1686403000660-1.jpg"
+        />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="627" />
       </Head>
