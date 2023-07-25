@@ -14,7 +14,16 @@ import { RiLoader4Fill } from "react-icons/ri";
 import Loader from "../Components/shared/Loader/Loader";
 import blogService from "../api/blogService";
 
-const BlogsView = ({initialData}) => {
+export async function getServerSideProps({ params }) {
+  const blogId = params.id;
+  const response = await axios.get(
+    `https://motion-diary-server.vercel.app/api/v2/blogs/${blogId}`
+  );
+  const initialData = response.data;
+  return { props: { initialData } };
+}
+
+const BlogsView = ({ initialData }) => {
   const { query } = useRouter();
   const [user, loading] = useAuthState(auth);
   const [, , userData] = useRole();
@@ -178,36 +187,35 @@ const BlogsView = ({initialData}) => {
   return (
     <div className="lg:mt-16 mt-8 lg:mx-14 mx-6">
       <Head>
-        {/* <!-- HTML Meta Tags --> */}
-        <title>{initialData?.title}</title>
+        <title>{initialData?.data.title}</title>
         <meta
           name="description"
-          content={initialData?.description?.slice(0, 50) + "..."}
+          content={initialData?.data.description?.slice(0, 50) + "..."}
         />
         <meta
           property="og:url"
-          content={`https://motion-diary.vercel.app/blog/${initialData?._id}`}
+          content={`https://motion-diary.vercel.app/blog/${initialData?.data._id}`}
         />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content={initialData?.title} />
+        <meta property="og:title" content={initialData?.data.title} />
         <meta
           property="og:description"
-          content={initialData?.description?.slice(0, 50) + "..."}
+          content={initialData?.data.description?.slice(0, 50) + "..."}
         />
-        <meta property="og:image" content={initialData?.img} />
+        <meta property="og:image" content={initialData?.data.img} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="twitter:domain" content="motion-diary.vercel.app" />
         <meta
           property="twitter:url"
-          content={`https://motion-diary.vercel.app/blog/${initialData?._id}`}
+          content={`https://motion-diary.vercel.app/blog/${initialData?.data._id}`}
         />
-        <meta name="twitter:title" content={initialData?.title} />
+        <meta name="twitter:title" content={initialData?.data.title} />
         <meta
           name="twitter:description"
-          content={initialData?.description?.slice(0, 50) + "..."}
+          content={initialData?.data.description?.slice(0, 50) + "..."}
         />
-        <meta name="twitter:image" content={initialData?.img} />
+        <meta name="twitter:image" content={initialData?.data.img} />
       </Head>
       <div className="text-center">
         <p className="uppercase text-sm">
@@ -431,16 +439,5 @@ const BlogsView = ({initialData}) => {
     </div>
   );
 };
-
-export async function getServerSideProps({ params }) {
-  const blogId = params.id;
-  const response = await axios.get(
-    "https://motion-diary-server.vercel.app/api/v2/blogs/"
-  );
-  const blogs = response.data;
-  const initialData = blogs?.data.find((s) => blogId === s._id);
-
-  return { props: { initialData } };
-}
 
 export default BlogsView;
