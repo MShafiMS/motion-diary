@@ -2,7 +2,7 @@ import { useBlogContext } from "@component/Hooks/BlogsContext";
 import useRole from "@component/Hooks/useAdmin";
 import auth from "@component/firebase.init";
 import axios from "axios";
-import { NextSeo } from "next-seo";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -177,23 +177,38 @@ const BlogsView = ({initialData}) => {
   }
   return (
     <div className="lg:mt-16 mt-8 lg:mx-14 mx-6">
-      <NextSeo
-        title={initialData?.title}
-        description={initialData?.description?.slice(0, 50) + "..."}
-        openGraph={{
-          url: `https://motion-diary.vercel.app/blog/${initialData?._id}`,
-          type: "website",
-          title: initialData?.title,
-          description: initialData?.description?.slice(0, 50) + "...",
-          images: [
-            {
-              url: initialData?.img,
-              alt: initialData?.title,
-            },
-          ],
-        }}
-      />
+      <Head>
+        {/* <!-- HTML Meta Tags --> */}
+        <title>{initialData?.title}</title>
+        <meta
+          name="description"
+          content={initialData?.description?.slice(0, 50) + "..."}
+        />
+        <meta
+          property="og:url"
+          content={`https://motion-diary.vercel.app/blog/${initialData?._id}`}
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={initialData?.title} />
+        <meta
+          property="og:description"
+          content={initialData?.description?.slice(0, 50) + "..."}
+        />
+        <meta property="og:image" content={initialData?.img} />
 
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="motion-diary.vercel.app" />
+        <meta
+          property="twitter:url"
+          content={`https://motion-diary.vercel.app/blog/${initialData?._id}`}
+        />
+        <meta name="twitter:title" content={initialData?.title} />
+        <meta
+          name="twitter:description"
+          content={initialData?.description?.slice(0, 50) + "..."}
+        />
+        <meta name="twitter:image" content={initialData?.img} />
+      </Head>
       <div className="text-center">
         <p className="uppercase text-sm">
           <sup className="italic">in</sup>{" "}
