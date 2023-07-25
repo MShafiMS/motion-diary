@@ -19,6 +19,7 @@ using Next.js and React.
 - Node JS
 - Express JS
 - MongoDB
+- Mongoose
 - Firebase
 - React Qery with Axios
 - React Hook Form
