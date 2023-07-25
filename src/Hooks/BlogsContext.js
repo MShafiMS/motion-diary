@@ -8,12 +8,15 @@ const BlogContext = createContext({
   refetch: undefined,
 });
 
-export const BlogsProvider = ({ children }) => {
+export const BlogsProvider = ({ children, initialData }) => {
   const {
     data: blogs,
     isLoading,
     refetch,
-  } = useQuery(["blogsss"], async () => await blogService.get(`/`));
+  } = useQuery(["blogsss"], async () => await blogService.get(`/`), {
+    initialData: initialData || undefined,
+  });
+
   return (
     <BlogContext.Provider value={{ blogs, isLoading, refetch }}>
       {children}

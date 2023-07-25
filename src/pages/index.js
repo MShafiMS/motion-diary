@@ -12,7 +12,7 @@ export default function Home() {
         <meta property="og:title" content="Motion Diary" />
         <meta
           property="og:image"
-          content="https://i.ibb.co/RY7ng1V/338277762-575066831071383-4120655159452517510-n.png"
+          content="https://i.ibb.co/tM4KYFR/Group-3.png"
         />
         <meta
           property="og:description"
